@@ -4,6 +4,9 @@ import org.timepedia.exporter.client.ExporterUtil;
 
 import io.nextweb.fn.js.JsClosure;
 import io.nextweb.persistence.connections.MapConnection;
+import io.nextweb.persistence.connections.callbacks.CloseCallback;
+import io.nextweb.persistence.connections.callbacks.CommitCallback;
+import io.nextweb.persistence.connections.callbacks.DeleteCallback;
 import io.nextweb.persistence.connections.callbacks.GetCallback;
 import io.nextweb.persistence.connections.callbacks.PutCallback;
 import io.nextweb.persistence.js.JsSerializer;
@@ -48,4 +51,30 @@ public class JsMapConnection implements MapConnection {
 		return null;
 	}
 
+	@Override
+	public void delete(String key, DeleteCallback callback) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void close(CloseCallback callback) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void commit(CommitCallback callback) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void clearCache() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
+	
 }
