@@ -1,7 +1,5 @@
 package io.nextweb.persistence.js.internal;
 
-import org.timepedia.exporter.client.ExporterUtil;
-
 import io.nextweb.fn.js.JsClosure;
 import io.nextweb.persistence.connections.MapConnection;
 import io.nextweb.persistence.connections.callbacks.CloseCallback;
@@ -10,6 +8,8 @@ import io.nextweb.persistence.connections.callbacks.DeleteCallback;
 import io.nextweb.persistence.connections.callbacks.GetCallback;
 import io.nextweb.persistence.connections.callbacks.PutCallback;
 import io.nextweb.persistence.js.JsSerializer;
+
+import org.timepedia.exporter.client.ExporterUtil;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
@@ -68,22 +68,39 @@ public class JsMapConnection implements MapConnection {
 
 	private final native String getJs(String key, JavaScriptObject onSuccess,
 			JavaScriptObject onFailure)/*-{ 
-				return source.get(key, onSuccess, onFailure);
-			}-*/;
+										return source.get(key, onSuccess, onFailure);
+										}-*/;
 
 	@Override
-	public void delete(String key, DeleteCallback callback) {
+	public final void delete(final String key, final DeleteCallback callback) {
+		deleteJs(key, /* onSuccess */
+				ExporterUtil.wrap(new JsClosure() {
+
+					@Override
+					public void apply(Object result) {
+						callback.onSuccess();
+					}
+				}), /* onFailure */ExporterUtil.wrap(new JsClosure() {
+
+					@Override
+					public void apply(Object result) {
+						callback.onFailure(new Exception(result.toString()));
+					}
+				}));
+	}
+
+	private final native void deleteJs(String key, JavaScriptObject onSuccess,
+			JavaScriptObject onFailure)/*-{ 
+										source.delete(key, onSuccess, onFailure);
+										}-*/;
+
+	@Override
+	public void close(CloseCallback callback) {
 		
 	}
 
-	private final native void delete(String key, JavaScript)
+	//private final native void closeJs(String key)
 	
-	@Override
-	public void close(CloseCallback callback) {
-		// TODO Auto-generated method stub
-
-	}
-
 	@Override
 	public void commit(CommitCallback callback) {
 		// TODO Auto-generated method stub
