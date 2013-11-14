@@ -27,7 +27,7 @@ public class JsMapConnection implements MapConnection {
 	@Override
 	public void put(final String key, final Object value,
 			final PutCallback callback) {
-		putJs(key, serializer.serialize(value), /* onSuccess */
+		putJs(source, key, serializer.serialize(value), /* onSuccess */
 				ExporterUtil.wrap(new JsClosure() {
 
 					@Override
@@ -43,14 +43,14 @@ public class JsMapConnection implements MapConnection {
 				}));
 	}
 
-	private final native void putJs(String key, String value,
+	private final native void putJs(JavaScriptObject source, String key, String value,
 			JavaScriptObject onSuccess, JavaScriptObject onFailure)/*-{
 																	source.put(key, value, onSuccess, onFailure);
 																	}-*/;
 
 	@Override
 	public final Object get(final String key, final GetCallback callback) {
-		return getJs(key, /* onSuccess */
+		return getJs(source, key, /* onSuccess */
 				ExporterUtil.wrap(new JsClosure() {
 
 					@Override
@@ -66,14 +66,14 @@ public class JsMapConnection implements MapConnection {
 				}));
 	}
 
-	private final native String getJs(String key, JavaScriptObject onSuccess,
+	private final native String getJs(JavaScriptObject source, String key, JavaScriptObject onSuccess,
 			JavaScriptObject onFailure)/*-{ 
 										return source.get(key, onSuccess, onFailure);
 										}-*/;
 
 	@Override
 	public final void delete(final String key, final DeleteCallback callback) {
-		deleteJs(key, /* onSuccess */
+		deleteJs(source, key, /* onSuccess */
 				ExporterUtil.wrap(new JsClosure() {
 
 					@Override
@@ -89,24 +89,42 @@ public class JsMapConnection implements MapConnection {
 				}));
 	}
 
-	private final native void deleteJs(String key, JavaScriptObject onSuccess,
+	private final native void deleteJs(JavaScriptObject source, String key, JavaScriptObject onSuccess,
 			JavaScriptObject onFailure)/*-{ 
 										source.delete(key, onSuccess, onFailure);
 										}-*/;
 
 	@Override
-	public void close(CloseCallback callback) {
-		
+	public final void close(final CloseCallback callback) {
+		closeJs(source, /* onSuccess */
+				ExporterUtil.wrap(new JsClosure() {
+
+					@Override
+					public void apply(Object result) {
+						callback.onSuccess();
+					}
+				}), /* onFailure */ExporterUtil.wrap(new JsClosure() {
+
+					@Override
+					public void apply(Object result) {
+						callback.onFailure(new Exception(result.toString()));
+					}
+				}));
 	}
 
-	//private final native void closeJs(String key)
+	private final native void closeJs(JavaScriptObject source, JavaScriptObject onSuccess, JavaScriptObject onFailure)/*-{ 
+		source.close(onSuccess, onFailure);
+	}-*/;
 	
 	@Override
 	public void commit(CommitCallback callback) {
-		// TODO Auto-generated method stub
-
+		
 	}
 
+	private final native void commitJs(JavaScriptObject onSuccess, JavaScriptObject onFailure)/*-{
+		source.commit(
+	 }-*/;
+	
 	@Override
 	public void clearCache() {
 		// TODO Auto-generated method stub
