@@ -17,7 +17,7 @@ public class JsMapConnection implements MapConnection {
 
 	private final JavaScriptObject source;
 	private final JsSerializer serializer;
-	
+
 	public JsMapConnection(JavaScriptObject source, JsSerializer serializer) {
 		super();
 		this.source = source;
@@ -25,56 +25,59 @@ public class JsMapConnection implements MapConnection {
 	}
 
 	@Override
-	public void put(final String key, final Object value, final PutCallback callback) {
-		putJs(key, serializer.serialize(value),  /* onSuccess */ExporterUtil.wrap(new JsClosure() {
+	public void put(final String key, final Object value,
+			final PutCallback callback) {
+		putJs(key, serializer.serialize(value), /* onSuccess */
+				ExporterUtil.wrap(new JsClosure() {
 
-			@Override
-			public void apply(Object result) {
-				callback.onSuccess();
-			}
-		}), /* onFailure */ExporterUtil.wrap(new JsClosure() {
+					@Override
+					public void apply(Object result) {
+						callback.onSuccess();
+					}
+				}), /* onFailure */ExporterUtil.wrap(new JsClosure() {
 
-			@Override
-			public void apply(Object result) {
-				callback.onFailure(new Exception(result.toString()));
-			}
-		}));
+					@Override
+					public void apply(Object result) {
+						callback.onFailure(new Exception(result.toString()));
+					}
+				}));
 	}
 
 	private final native void putJs(String key, String value,
 			JavaScriptObject onSuccess, JavaScriptObject onFailure)/*-{
-			    source.put(key, value, onSuccess, onFailure);
-			 }-*/;
+																	source.put(key, value, onSuccess, onFailure);
+																	}-*/;
 
 	@Override
 	public Object get(String key, GetCallback callback) {
 		return null;
 	}
 
+	private final native String getJs(String key, JavaScriptObject onSuccess,
+			JavaScriptObject onFailure)/*-{ }-*/;
+
 	@Override
 	public void delete(String key, DeleteCallback callback) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void close(CloseCallback callback) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void commit(CommitCallback callback) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void clearCache() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
-	
-	
 }
