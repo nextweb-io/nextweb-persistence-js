@@ -54,7 +54,9 @@ public class JsMapConnection implements MapConnection {
 	}
 
 	private final native String getJs(String key, JavaScriptObject onSuccess,
-			JavaScriptObject onFailure)/*-{ }-*/;
+			JavaScriptObject onFailure)/*-{ 
+				return source.get(key, onSuccess, onFailure);
+			}-*/;
 
 	@Override
 	public void delete(String key, DeleteCallback callback) {
