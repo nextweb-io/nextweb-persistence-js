@@ -49,8 +49,21 @@ public class JsMapConnection implements MapConnection {
 																	}-*/;
 
 	@Override
-	public Object get(String key, GetCallback callback) {
-		return null;
+	public final Object get(final String key, final GetCallback callback) {
+		return getJs(key, /* onSuccess */
+				ExporterUtil.wrap(new JsClosure() {
+
+					@Override
+					public void apply(Object result) {
+						callback.onSuccess(result);
+					}
+				}), /* onFailure */ExporterUtil.wrap(new JsClosure() {
+
+					@Override
+					public void apply(Object result) {
+						callback.onFailure(new Exception(result.toString()));
+					}
+				}));
 	}
 
 	private final native String getJs(String key, JavaScriptObject onSuccess,
@@ -60,10 +73,11 @@ public class JsMapConnection implements MapConnection {
 
 	@Override
 	public void delete(String key, DeleteCallback callback) {
-		// TODO Auto-generated method stub
-
+		
 	}
 
+	private final native void delete(String key, JavaScript)
+	
 	@Override
 	public void close(CloseCallback callback) {
 		// TODO Auto-generated method stub
