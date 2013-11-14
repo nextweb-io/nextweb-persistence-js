@@ -4,6 +4,7 @@ import io.nextweb.persistence.PersistenceProvider;
 import io.nextweb.persistence.connections.MapConnection;
 import io.nextweb.persistence.js.internal.JsMapConnection;
 import io.nextweb.persistence.js.internal.JsPersistenceProvider;
+import io.nextweb.persistence.js.internal.RpcSerializer;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
@@ -21,4 +22,8 @@ public class NextwebPersistenceJs {
 		return new JsMapConnection(mapConnection, serializer);
 	}
 
+	public static JsSerializer createRpcSerializer() {
+		return new RpcSerializer();
+	}
+	
 }
