@@ -44,8 +44,8 @@ public class JsMapConnection implements MapConnection {
 			 }-*/;
 
 	@Override
-	public void get(String key, GetCallback callback) {
-
+	public Object get(String key, GetCallback callback) {
+		return null;
 	}
 
 }
