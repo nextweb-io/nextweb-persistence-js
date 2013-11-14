@@ -142,8 +142,11 @@ public class JsMapConnection implements MapConnection {
 
 	@Override
 	public void clearCache() {
-		// TODO Auto-generated method stub
-
+		clearCacheJs(source);
 	}
+
+	private final native void clearCacheJs(JavaScriptObject source)/*-{
+																	source.clearCache();
+																	}-*/;
 
 }
