@@ -55,7 +55,7 @@ public class JsMapConnection implements MapConnection {
 
 			@Override
 			public void apply(Object o) {
-				
+				callback.onFailure(new Exception(o.toString()));
 			}
 		});
 		
