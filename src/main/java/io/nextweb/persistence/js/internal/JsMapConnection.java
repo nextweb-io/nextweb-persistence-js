@@ -1,7 +1,9 @@
 package io.nextweb.persistence.js.internal;
 
 import io.nextweb.fn.FnUtils;
+import io.nextweb.fn.js.FnJs;
 import io.nextweb.fn.js.JsClosure;
+import io.nextweb.fn.js.callbacks.EmptyCallback;
 import io.nextweb.persistence.connections.MapConnection;
 import io.nextweb.persistence.connections.callbacks.CloseCallback;
 import io.nextweb.persistence.connections.callbacks.CommitCallback;
@@ -39,10 +41,10 @@ public class JsMapConnection implements MapConnection {
 		
 		GWT.log("serialized: "+serializedValue);
 		
-		JavaScriptObject onSuccess = ExporterUtil.wrap(new JsClosure() {
-
+		JavaScriptObject onSuccess = FnJs.exportCallback(new EmptyCallback() {
+			
 			@Override
-			public void apply(final Object result) {
+			public void call() {
 				callback.onSuccess();
 			}
 		});
