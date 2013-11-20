@@ -36,11 +36,8 @@ public class JsMapConnection implements MapConnection {
 	public void put(final String key, final Object value,
 			final PutCallback callback) {
 		
-		
-		GWT.log("about to serialize: "+value);
 		String serializedValue = serializer.serialize(value);
 		
-		GWT.log("serialized: "+serializedValue);
 		
 		JavaScriptObject onSuccess = FnJs.exportCallback(new EmptyCallback() {
 			
@@ -49,8 +46,7 @@ public class JsMapConnection implements MapConnection {
 				callback.onSuccess();
 			}
 		});
-		
-		GWT.log("onsuccess created: "+onSuccess);
+	
 		JavaScriptObject onFailure = FnJs.exportCallback(new Closure<Object>() {
 
 			@Override
@@ -60,18 +56,10 @@ public class JsMapConnection implements MapConnection {
 		});
 		
 	
-		
-		GWT.log("onfailure created: "+onFailure);
-		
-		GWT.log("open dummyjs");
-		
-		
-		GWT.log("Pass params: "+source+" "+key+" "+serializedValue+" "+onSuccess.getClass()+" "+onFailure.getClass());
-		
+	
 		putJs(source, key, serializedValue, 
 				onSuccess, onFailure);
-		
-		GWT.log("put completed");
+	
 	}
 
 	
