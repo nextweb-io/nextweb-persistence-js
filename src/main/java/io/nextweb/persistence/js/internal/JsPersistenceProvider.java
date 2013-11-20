@@ -1,9 +1,5 @@
 package io.nextweb.persistence.js.internal;
 
-import org.timepedia.exporter.client.ExporterUtil;
-
-import io.nextweb.fn.Result;
-import io.nextweb.fn.js.JsClosure;
 import io.nextweb.persistence.PersistenceProvider;
 import io.nextweb.persistence.connections.MapConnection;
 import io.nextweb.persistence.js.NextwebPersistenceJs;
@@ -14,13 +10,11 @@ public class JsPersistenceProvider implements PersistenceProvider {
 
 	private final JavaScriptObject source;
 
-	
-	
-	
 	@Override
 	public MapConnection createMap(String id) {
-		
-		return NextwebPersistenceJs.wrapMapConnection(serializer, createMapJs(id));
+
+		return NextwebPersistenceJs.wrapMapConnection(new RpcSerializer(),
+				createMapJs(id));
 	}
 
 	private final native JavaScriptObject createMapJs(String id)/*-{
