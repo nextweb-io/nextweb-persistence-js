@@ -25,7 +25,7 @@ public class JsPersistenceProvider implements PersistenceProvider {
 
 	@Override
 	public void removeMap(String id) {
-
+		removeMapJs(id);
 	}
 
 	private final native JavaScriptObject removeMapJs(String id)/*-{
