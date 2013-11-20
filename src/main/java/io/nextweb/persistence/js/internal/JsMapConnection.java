@@ -72,7 +72,7 @@ public class JsMapConnection implements MapConnection {
 																	}-*/;
 
 	@Override
-	public final void delete(final String key, final DeleteCallback callback) {
+	public final void remove(final String key, final DeleteCallback callback) {
 		deleteJs(source, key, /* onSuccess */
 				ExporterUtil.wrap(new JsClosure() {
 
@@ -91,7 +91,7 @@ public class JsMapConnection implements MapConnection {
 
 	private final native void deleteJs(JavaScriptObject source, String key,
 			JavaScriptObject onSuccess, JavaScriptObject onFailure)/*-{ 
-																	source.delete(key, onSuccess, onFailure);
+																	source.remove(key, onSuccess, onFailure);
 																	}-*/;
 
 	@Override
