@@ -2,6 +2,7 @@ package io.nextweb.persistence.js.internal;
 
 import io.nextweb.persistence.PersistenceProvider;
 import io.nextweb.persistence.connections.MapConnection;
+import io.nextweb.persistence.js.JsSerializer;
 import io.nextweb.persistence.js.NextwebPersistenceJs;
 
 import com.google.gwt.core.client.JavaScriptObject;
@@ -10,11 +11,11 @@ public class JsPersistenceProvider implements PersistenceProvider {
 
 	private final JavaScriptObject source;
 	private final JsSerializer serializer;
-	
+
 	@Override
 	public MapConnection createMap(String id) {
 
-		return NextwebPersistenceJs.wrapMapConnection(new RpcSerializer(),
+		return NextwebPersistenceJs.wrapMapConnection(serializer,
 				createMapJs(id));
 	}
 
@@ -22,9 +23,11 @@ public class JsPersistenceProvider implements PersistenceProvider {
 																	source.createMap(id);
 																	}-*/;
 
-	public JsPersistenceProvider(JavaScriptObject source) {
+	public JsPersistenceProvider(JavaScriptObject source,
+			JsSerializer serializer) {
 		super();
 		this.source = source;
+		this.serializer = serializer;
 	}
 
 }
