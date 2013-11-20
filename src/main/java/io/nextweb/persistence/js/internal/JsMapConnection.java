@@ -92,16 +92,17 @@ public class JsMapConnection implements MapConnection {
 
 	@Override
 	public final void remove(final String key, final DeleteCallback callback) {
-		final JavaScriptObject onSuccess = FnJs.exportCallback(new EmptyCallback() {
-			
-			@Override
-			public void call() {
-				callback.onSuccess();
-			}
-		});
-		
+		final JavaScriptObject onSuccess = FnJs
+				.exportCallback(new EmptyCallback() {
+
+					@Override
+					public void call() {
+						callback.onSuccess();
+					}
+				});
+
 		final JavaScriptObject onFailure = createFailureCallback(callback);
-		
+
 		removeJs(source, key, onSuccess, onFailure);
 	}
 
@@ -112,16 +113,17 @@ public class JsMapConnection implements MapConnection {
 
 	@Override
 	public final void close(final CloseCallback callback) {
-		final JavaScriptObject onSuccess = FnJs.exportCallback(new EmptyCallback() {
-			
-			@Override
-			public void call() {
-				callback.onSuccess();
-			}
-		});
-		
+		final JavaScriptObject onSuccess = FnJs
+				.exportCallback(new EmptyCallback() {
+
+					@Override
+					public void call() {
+						callback.onSuccess();
+					}
+				});
+
 		final JavaScriptObject onFailure = createFailureCallback(callback);
-		
+
 		closeJs(source, onSuccess, onFailure);
 	}
 
@@ -132,17 +134,18 @@ public class JsMapConnection implements MapConnection {
 
 	@Override
 	public final void commit(final CommitCallback callback) {
-		
-final JavaScriptObject onSuccess = FnJs.exportCallback(new EmptyCallback() {
-			
-			@Override
-			public void call() {
-				callback.onSuccess();
-			}
-		});
-		
+
+		final JavaScriptObject onSuccess = FnJs
+				.exportCallback(new EmptyCallback() {
+
+					@Override
+					public void call() {
+						callback.onSuccess();
+					}
+				});
+
 		final JavaScriptObject onFailure = createFailureCallback(callback);
-		
+
 		commitJs(source, onSuccess, onFailure);
 	}
 
