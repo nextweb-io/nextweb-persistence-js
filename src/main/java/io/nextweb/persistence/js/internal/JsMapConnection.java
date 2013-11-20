@@ -1,5 +1,6 @@
 package io.nextweb.persistence.js.internal;
 
+import io.nextweb.fn.Closure;
 import io.nextweb.fn.FnUtils;
 import io.nextweb.fn.js.FnJs;
 import io.nextweb.fn.js.JsClosure;
@@ -50,17 +51,17 @@ public class JsMapConnection implements MapConnection {
 		});
 		
 		GWT.log("onsuccess created: "+onSuccess);
-		JavaScriptObject onFailure = ExporterUtil.wrap(new JsClosure() {
+		JavaScriptObject onFailure = FnJs.exportCallback(new Closure<Object>() {
 
 			@Override
-			public void apply(final Object result) {
-				callback.onFailure(new Exception(result.toString()));
+			public void apply(Object o) {
+				
 			}
 		});
 		
 	
 		
-		GWT.log("onfailure created: "+onSuccess);
+		GWT.log("onfailure created: "+onFailure);
 		
 		GWT.log("open dummyjs");
 		
