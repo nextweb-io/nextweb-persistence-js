@@ -1,10 +1,11 @@
 package io.nextweb.persistence.js.internal;
 
 import io.nextweb.fn.Closure;
-import io.nextweb.fn.FnUtils;
+import io.nextweb.fn.callbacks.FailureCallback;
 import io.nextweb.fn.js.FnJs;
 import io.nextweb.fn.js.JsClosure;
 import io.nextweb.fn.js.callbacks.EmptyCallback;
+import io.nextweb.fn.js.exceptions.ExceptionUtils;
 import io.nextweb.persistence.connections.MapConnection;
 import io.nextweb.persistence.connections.callbacks.CloseCallback;
 import io.nextweb.persistence.connections.callbacks.CommitCallback;
@@ -16,7 +17,6 @@ import io.nextweb.persistence.js.JsSerializer;
 import org.timepedia.exporter.client.ExporterUtil;
 
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.core.shared.GWT;
 
 public class JsMapConnection implements MapConnection {
 
@@ -32,40 +32,37 @@ public class JsMapConnection implements MapConnection {
 		this.serializer = serializer;
 	}
 
+	private JavaScriptObject createFailureCallback(
+			final FailureCallback callback) {
+		return FnJs.exportCallback(new Closure<Object>() {
+
+			@Override
+			public void apply(Object o) {
+				callback.onFailure(ExceptionUtils.convertJavaScriptException(o));
+			}
+		});
+	}
+
 	@Override
 	public void put(final String key, final Object value,
 			final PutCallback callback) {
-		
+
 		String serializedValue = serializer.serialize(value);
-		
-		
+
 		JavaScriptObject onSuccess = FnJs.exportCallback(new EmptyCallback() {
-			
+
 			@Override
 			public void call() {
 				callback.onSuccess();
 			}
 		});
-	
-		JavaScriptObject onFailure = FnJs.exportCallback(new Closure<Object>() {
 
-			@Override
-			public void apply(Object o) {
-				callback.onFailure(new Exception(o.toString()));
-			}
-		});
-		
-	
-	
-		putJs(source, key, serializedValue, 
-				onSuccess, onFailure);
-	
+		JavaScriptObject onFailure = createFailureCallback(callback);
+
+		putJs(source, key, serializedValue, onSuccess, onFailure);
+
 	}
 
-	
-	
-	
-	
 	private native void putJs(JavaScriptObject source, String key,
 			String value, JavaScriptObject onSuccess, JavaScriptObject onFailure)/*-{
 																					source.put(key, value, onSuccess, onFailure);
@@ -73,20 +70,19 @@ public class JsMapConnection implements MapConnection {
 
 	@Override
 	public final Object get(final String key, final GetCallback callback) {
-		return getJs(source, key, /* onSuccess */
-				ExporterUtil.wrap(new JsClosure() {
 
-					@Override
-					public void apply(Object result) {
-						callback.onSuccess(result);
-					}
-				}), /* onFailure */ExporterUtil.wrap(new JsClosure() {
+		JavaScriptObject onSuccess = FnJs.exportCallback(new Closure<Object>() {
 
-					@Override
-					public void apply(Object result) {
-						callback.onFailure(new Exception(result.toString()));
-					}
-				}));
+			@Override
+			public void apply(Object o) {
+				callback.onSuccess(o);
+			}
+
+		});
+
+		JavaScriptObject onFailure = createFailureCallback(callback);
+
+		return getJs(source, key, onSuccess, onFailure);
 	}
 
 	private native String getJs(JavaScriptObject source, String key,
@@ -96,20 +92,17 @@ public class JsMapConnection implements MapConnection {
 
 	@Override
 	public final void remove(final String key, final DeleteCallback callback) {
-		removeJs(source, key, /* onSuccess */
-				ExporterUtil.wrap(new JsClosure() {
-
-					@Override
-					public void apply(Object result) {
-						callback.onSuccess();
-					}
-				}), /* onFailure */ExporterUtil.wrap(new JsClosure() {
-
-					@Override
-					public void apply(Object result) {
-						callback.onFailure(new Exception(result.toString()));
-					}
-				}));
+		final JavaScriptObject onSuccess = FnJs.exportCallback(new EmptyCallback() {
+			
+			@Override
+			public void call() {
+				callback.onSuccess();
+			}
+		});
+		
+		final JavaScriptObject onFailure = createFailureCallback(callback);
+		
+		removeJs(source, key, onSuccess, onFailure);
 	}
 
 	private native void removeJs(JavaScriptObject source, String key,
@@ -119,46 +112,41 @@ public class JsMapConnection implements MapConnection {
 
 	@Override
 	public final void close(final CloseCallback callback) {
-		closeJs(source, /* onSuccess */
-				ExporterUtil.wrap(new JsClosure() {
-
-					@Override
-					public void apply(Object result) {
-						callback.onSuccess();
-					}
-				}), /* onFailure */ExporterUtil.wrap(new JsClosure() {
-
-					@Override
-					public void apply(Object result) {
-						callback.onFailure(new Exception(result.toString()));
-					}
-				}));
+		final JavaScriptObject onSuccess = FnJs.exportCallback(new EmptyCallback() {
+			
+			@Override
+			public void call() {
+				callback.onSuccess();
+			}
+		});
+		
+		final JavaScriptObject onFailure = createFailureCallback(callback);
+		
+		closeJs(source, onSuccess, onFailure);
 	}
 
-	private  native void closeJs(JavaScriptObject source,
+	private native void closeJs(JavaScriptObject source,
 			JavaScriptObject onSuccess, JavaScriptObject onFailure)/*-{ 
 																	source.close(onSuccess, onFailure);
 																	}-*/;
 
 	@Override
 	public final void commit(final CommitCallback callback) {
-		commitJs(source, /* onSuccess */
-				ExporterUtil.wrap(new JsClosure() {
-
-					@Override
-					public void apply(Object result) {
-						callback.onSuccess();
-					}
-				}), /* onFailure */ExporterUtil.wrap(new JsClosure() {
-
-					@Override
-					public void apply(Object result) {
-						callback.onFailure(new Exception(result.toString()));
-					}
-				}));
+		
+final JavaScriptObject onSuccess = FnJs.exportCallback(new EmptyCallback() {
+			
+			@Override
+			public void call() {
+				callback.onSuccess();
+			}
+		});
+		
+		final JavaScriptObject onFailure = createFailureCallback(callback);
+		
+		commitJs(source, onSuccess, onFailure);
 	}
 
-	private  native void commitJs(JavaScriptObject source,
+	private native void commitJs(JavaScriptObject source,
 			JavaScriptObject onSuccess, JavaScriptObject onFailure)/*-{
 																	source.commit(onSuccess, onFailure);
 																	}-*/;
