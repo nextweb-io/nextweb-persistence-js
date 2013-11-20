@@ -11,9 +11,9 @@ import com.google.gwt.core.client.JavaScriptObject;
 public class NextwebPersistenceJs {
 
 	public static PersistenceProvider wrapPersistenceProvider(
-			JavaScriptObject js) {
+			JsSerializer serializer, JavaScriptObject js) {
 
-		return new JsPersistenceProvider(js);
+		return new JsPersistenceProvider(js, serializer);
 
 	}
 
@@ -25,5 +25,5 @@ public class NextwebPersistenceJs {
 	public static JsSerializer createRpcSerializer() {
 		return new RpcSerializer();
 	}
-	
+
 }

@@ -23,6 +23,15 @@ public class JsPersistenceProvider implements PersistenceProvider {
 																	source.createMap(id);
 																	}-*/;
 
+	@Override
+	public void removeMap(String id) {
+
+	}
+
+	private final native JavaScriptObject removeMapJs(String id)/*-{
+																source.removeMap(id);
+																}-*/;
+
 	public JsPersistenceProvider(JavaScriptObject source,
 			JsSerializer serializer) {
 		super();
