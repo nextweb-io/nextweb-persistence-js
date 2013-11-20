@@ -13,29 +13,17 @@ public class JsPersistenceProvider implements PersistenceProvider {
 
 	private final JavaScriptObject source;
 
+	
+	
+	
 	@Override
-	public final Result<MapConnection> createMap(String id) {
-
-		createMapJs(id, /* onSuccess */ExporterUtil.wrap(new JsClosure() {
-
-			@Override
-			public void apply(Object result) {
-
-			}
-		}), /* onFailure */ExporterUtil.wrap(new JsClosure() {
-
-			@Override
-			public void apply(Object result) {
-
-			}
-		}));
-
+	public MapConnection createMap(String id) {
+		
 		return null;
 	}
 
-	private final native void createMapJs(String id,
-			JavaScriptObject onSuccess, JavaScriptObject onFailure)/*-{
-																	source.createMap(id, onSuccess, onFailure);
+	private final native JavaScriptObject createMapJs(String id)/*-{
+																	source.createMap(id);
 																	}-*/;
 
 	public JsPersistenceProvider(JavaScriptObject source) {
