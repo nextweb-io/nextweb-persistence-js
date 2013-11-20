@@ -1,5 +1,6 @@
 package io.nextweb.persistence.js.internal;
 
+import io.nextweb.fn.FnUtils;
 import io.nextweb.fn.js.JsClosure;
 import io.nextweb.persistence.connections.MapConnection;
 import io.nextweb.persistence.connections.callbacks.CloseCallback;
@@ -12,6 +13,7 @@ import io.nextweb.persistence.js.JsSerializer;
 import org.timepedia.exporter.client.ExporterUtil;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.shared.GWT;
 
 public class JsMapConnection implements MapConnection {
 
@@ -20,6 +22,9 @@ public class JsMapConnection implements MapConnection {
 
 	public JsMapConnection(JavaScriptObject source, JsSerializer serializer) {
 		super();
+		if (source == null) {
+			throw new IllegalArgumentException("source should not be null.");
+		}
 		this.source = source;
 		this.serializer = serializer;
 	}
@@ -27,23 +32,50 @@ public class JsMapConnection implements MapConnection {
 	@Override
 	public void put(final String key, final Object value,
 			final PutCallback callback) {
-		putJs(source, key, serializer.serialize(value), /* onSuccess */
-				ExporterUtil.wrap(new JsClosure() {
+		
+		
+		GWT.log("about to serialize: "+value);
+		String serializedValue = serializer.serialize(value);
+		
+		GWT.log("serialized: "+serializedValue);
+		
+		JavaScriptObject onSuccess = ExporterUtil.wrap(new JsClosure() {
 
-					@Override
-					public void apply(Object result) {
-						callback.onSuccess();
-					}
-				}), /* onFailure */ExporterUtil.wrap(new JsClosure() {
+			@Override
+			public void apply(final Object result) {
+				callback.onSuccess();
+			}
+		});
+		
+		GWT.log("onsuccess created: "+onSuccess);
+		JavaScriptObject onFailure = ExporterUtil.wrap(new JsClosure() {
 
-					@Override
-					public void apply(Object result) {
-						callback.onFailure(new Exception(result.toString()));
-					}
-				}));
+			@Override
+			public void apply(final Object result) {
+				callback.onFailure(new Exception(result.toString()));
+			}
+		});
+		
+	
+		
+		GWT.log("onfailure created: "+onSuccess);
+		
+		GWT.log("open dummyjs");
+		
+		
+		GWT.log("Pass params: "+source+" "+key+" "+serializedValue+" "+onSuccess.getClass()+" "+onFailure.getClass());
+		
+		putJs(source, key, serializedValue, 
+				onSuccess, onFailure);
+		
+		GWT.log("put completed");
 	}
 
-	private final native void putJs(JavaScriptObject source, String key,
+	
+	
+	
+	
+	private native void putJs(JavaScriptObject source, String key,
 			String value, JavaScriptObject onSuccess, JavaScriptObject onFailure)/*-{
 																					source.put(key, value, onSuccess, onFailure);
 																					}-*/;
@@ -66,7 +98,7 @@ public class JsMapConnection implements MapConnection {
 				}));
 	}
 
-	private final native String getJs(JavaScriptObject source, String key,
+	private native String getJs(JavaScriptObject source, String key,
 			JavaScriptObject onSuccess, JavaScriptObject onFailure)/*-{ 
 																	return source.get(key, onSuccess, onFailure);
 																	}-*/;
@@ -89,7 +121,7 @@ public class JsMapConnection implements MapConnection {
 				}));
 	}
 
-	private final native void removeJs(JavaScriptObject source, String key,
+	private native void removeJs(JavaScriptObject source, String key,
 			JavaScriptObject onSuccess, JavaScriptObject onFailure)/*-{ 
 																	source.remove(key, onSuccess, onFailure);
 																	}-*/;
@@ -112,7 +144,7 @@ public class JsMapConnection implements MapConnection {
 				}));
 	}
 
-	private final native void closeJs(JavaScriptObject source,
+	private  native void closeJs(JavaScriptObject source,
 			JavaScriptObject onSuccess, JavaScriptObject onFailure)/*-{ 
 																	source.close(onSuccess, onFailure);
 																	}-*/;
@@ -135,7 +167,7 @@ public class JsMapConnection implements MapConnection {
 				}));
 	}
 
-	private final native void commitJs(JavaScriptObject source,
+	private  native void commitJs(JavaScriptObject source,
 			JavaScriptObject onSuccess, JavaScriptObject onFailure)/*-{
 																	source.commit(onSuccess, onFailure);
 																	}-*/;
@@ -145,7 +177,7 @@ public class JsMapConnection implements MapConnection {
 		clearCacheJs(source);
 	}
 
-	private final native void clearCacheJs(JavaScriptObject source)/*-{
+	private native void clearCacheJs(JavaScriptObject source)/*-{
 																	source.clearCache();
 																	}-*/;
 
