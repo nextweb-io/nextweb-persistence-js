@@ -9,7 +9,8 @@ import com.google.gwt.core.client.JavaScriptObject;
 public class JsPersistenceProvider implements PersistenceProvider {
 
 	private final JavaScriptObject source;
-
+	private final JsSerializer serializer;
+	
 	@Override
 	public MapConnection createMap(String id) {
 
