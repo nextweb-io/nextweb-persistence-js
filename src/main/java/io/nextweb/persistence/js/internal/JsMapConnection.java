@@ -82,14 +82,26 @@ public class JsMapConnection implements MapConnection {
 
 		JavaScriptObject onFailure = createFailureCallback(callback);
 
-		return getJs(source, key, onSuccess, onFailure);
+		getJs(source, key, onSuccess, onFailure);
 	}
 
-	private native String getJs(JavaScriptObject source, String key,
+	private native void getJs(JavaScriptObject source, String key,
 			JavaScriptObject onSuccess, JavaScriptObject onFailure)/*-{ 
-																	return source.get(key, onSuccess, onFailure);
+																	source.get(key, onSuccess, onFailure);
 																	}-*/;
 
+	
+	
+	
+	@Override
+	public Object getSync(String key) {
+		return getSyncJs(key);
+	}
+
+	private native Object getSyncJs(JavaScriptObject source, String key)/*-{ 
+																	return source.get(key);
+																	}-*/;
+	
 	@Override
 	public final void remove(final String key, final DeleteCallback callback) {
 		final JavaScriptObject onSuccess = FnJs
