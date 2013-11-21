@@ -81,10 +81,17 @@ public class JsMapConnection implements MapConnection {
 	@Override
 	public final void get(final String key, final GetCallback callback) {
 
+		if (ENABLE_LOG) {
+			GWT.log(this+".get("+key+")");
+		}
+		
 		JavaScriptObject onSuccess = FnJs.exportCallback(new Closure<Object>() {
 
 			@Override
 			public void apply(Object o) {
+				if (ENABLE_LOG) {
+					GWT.log(this+".get("+key+")->onSuccess="+o);
+				}
 				callback.onSuccess(serializer.deserialize((String) o));
 			}
 
@@ -102,7 +109,15 @@ public class JsMapConnection implements MapConnection {
 
 	@Override
 	public Object getSync(String key) {
-		return serializer.deserialize(getSyncJs(source, key));
+		if (ENABLE_LOG) {
+			GWT.log(this+".getSync("+key+")");
+		}
+		Object res = serializer.deserialize(getSyncJs(source, key));
+		if (ENABLE_LOG) {
+			GWT.log(this+".getSync("+key+")->"+res);
+		}
+		
+		return res;
 	}
 
 	private native String getSyncJs(JavaScriptObject source, String key)/*-{ 
@@ -111,6 +126,9 @@ public class JsMapConnection implements MapConnection {
 	
 	@Override
 	public final void remove(final String key, final RemoveCallback callback) {
+		if (ENABLE_LOG) {
+			GWT.log(this+".remove("+key+")");
+		}
 		final JavaScriptObject onSuccess = FnJs
 				.exportCallback(new EmptyCallback() {
 
