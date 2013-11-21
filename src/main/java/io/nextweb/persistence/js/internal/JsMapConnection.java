@@ -90,16 +90,13 @@ public class JsMapConnection implements MapConnection {
 																	source.get(key, onSuccess, onFailure);
 																	}-*/;
 
-	
-	
-	
 	@Override
 	public Object getSync(String key) {
-		return getSyncJs(key);
+		return getSyncJs(source, key);
 	}
 
 	private native Object getSyncJs(JavaScriptObject source, String key)/*-{ 
-																	return source.get(key);
+																	return source.getSync(key);
 																	}-*/;
 	
 	@Override
