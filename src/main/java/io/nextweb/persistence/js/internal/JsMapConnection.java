@@ -9,7 +9,7 @@ import io.nextweb.fn.js.exceptions.ExceptionUtils;
 import io.nextweb.persistence.connections.MapConnection;
 import io.nextweb.persistence.connections.callbacks.CloseCallback;
 import io.nextweb.persistence.connections.callbacks.CommitCallback;
-import io.nextweb.persistence.connections.callbacks.DeleteCallback;
+import io.nextweb.persistence.connections.callbacks.RemoveCallback;
 import io.nextweb.persistence.connections.callbacks.GetCallback;
 import io.nextweb.persistence.connections.callbacks.PutCallback;
 import io.nextweb.persistence.js.JsSerializer;
@@ -100,7 +100,7 @@ public class JsMapConnection implements MapConnection {
 																	}-*/;
 	
 	@Override
-	public final void remove(final String key, final DeleteCallback callback) {
+	public final void remove(final String key, final RemoveCallback callback) {
 		final JavaScriptObject onSuccess = FnJs
 				.exportCallback(new EmptyCallback() {
 
