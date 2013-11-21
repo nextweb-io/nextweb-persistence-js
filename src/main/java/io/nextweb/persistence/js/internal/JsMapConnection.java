@@ -3,19 +3,17 @@ package io.nextweb.persistence.js.internal;
 import io.nextweb.fn.Closure;
 import io.nextweb.fn.callbacks.FailureCallback;
 import io.nextweb.fn.js.FnJs;
-import io.nextweb.fn.js.JsClosure;
 import io.nextweb.fn.js.callbacks.EmptyCallback;
 import io.nextweb.fn.js.exceptions.ExceptionUtils;
 import io.nextweb.persistence.connections.MapConnection;
 import io.nextweb.persistence.connections.callbacks.CloseCallback;
 import io.nextweb.persistence.connections.callbacks.CommitCallback;
-import io.nextweb.persistence.connections.callbacks.RemoveCallback;
 import io.nextweb.persistence.connections.callbacks.GetCallback;
 import io.nextweb.persistence.connections.callbacks.PutCallback;
+import io.nextweb.persistence.connections.callbacks.RemoveCallback;
 import io.nextweb.persistence.js.JsSerializer;
 
-import org.timepedia.exporter.client.ExporterUtil;
-
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 
 public class JsMapConnection implements MapConnection {
@@ -40,6 +38,9 @@ public class JsMapConnection implements MapConnection {
 
 			@Override
 			public void apply(Object o) {
+				if (ENABLE_LOG) {
+					GWT.log(this+"->Operation failed: "+o);
+				}
 				callback.onFailure(ExceptionUtils.convertJavaScriptException(o));
 			}
 		});
@@ -50,7 +51,7 @@ public class JsMapConnection implements MapConnection {
 			final PutCallback callback) {
 
 		if (ENABLE_LOG) {
-			System.out.println(this+".put("+key+", "+value+")");
+			GWT.log(this+".put("+key+", "+value+")");
 		}
 		
 		String serializedValue = serializer.serialize(value);
@@ -60,7 +61,7 @@ public class JsMapConnection implements MapConnection {
 			@Override
 			public void call() {
 				if (ENABLE_LOG) {
-					System.out.println(this+".put("+key+", "+value+")->onSuccess");
+					GWT.log(this+".put("+key+", "+value+")->onSuccess");
 				}
 				callback.onSuccess();
 			}
