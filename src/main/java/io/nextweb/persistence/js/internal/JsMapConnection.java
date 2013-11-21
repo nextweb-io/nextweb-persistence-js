@@ -20,6 +20,8 @@ import com.google.gwt.core.client.JavaScriptObject;
 
 public class JsMapConnection implements MapConnection {
 
+	private final static boolean ENABLE_LOG = true;
+	
 	private final JavaScriptObject source;
 	private final JsSerializer serializer;
 
@@ -47,12 +49,19 @@ public class JsMapConnection implements MapConnection {
 	public void put(final String key, final Object value,
 			final PutCallback callback) {
 
+		if (ENABLE_LOG) {
+			System.out.println(this+".put("+key+", "+value+")");
+		}
+		
 		String serializedValue = serializer.serialize(value);
 
 		JavaScriptObject onSuccess = FnJs.exportCallback(new EmptyCallback() {
 
 			@Override
 			public void call() {
+				if (ENABLE_LOG) {
+					System.out.println(this+".put("+key+", "+value+")->onSuccess");
+				}
 				callback.onSuccess();
 			}
 		});
