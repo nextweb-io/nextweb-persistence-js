@@ -113,7 +113,7 @@ public class JsMapConnection implements MapConnection {
 			GWT.log(this+".getSync("+key+")");
 		}
 		String value = getSyncJs(source, key);
-		if (value == "<!--NULLVALUE-->") {
+		if (value.equals("<!--NULLVALUE-->")) {
 			return null;
 		}
 		
