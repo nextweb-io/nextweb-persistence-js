@@ -75,7 +75,7 @@ public class JsMapConnection implements MapConnection {
 
 			@Override
 			public void apply(Object o) {
-				callback.onSuccess(o);
+				callback.onSuccess(serializer.deserialize((String) o));
 			}
 
 		});
