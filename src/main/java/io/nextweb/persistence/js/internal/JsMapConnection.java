@@ -69,7 +69,7 @@ public class JsMapConnection implements MapConnection {
 																					}-*/;
 
 	@Override
-	public final Object get(final String key, final GetCallback callback) {
+	public final void get(final String key, final GetCallback callback) {
 
 		JavaScriptObject onSuccess = FnJs.exportCallback(new Closure<Object>() {
 
