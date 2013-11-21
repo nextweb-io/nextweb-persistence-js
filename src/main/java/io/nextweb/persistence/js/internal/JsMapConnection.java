@@ -113,8 +113,15 @@ public class JsMapConnection implements MapConnection {
 			GWT.log(this+".getSync("+key+")");
 		}
 		String value = getSyncJs(source, key);
-		if (value.equals("<!--NULLVALUE-->")) {
+		if (value == null) {
+			if (ENABLE_LOG) {
+				GWT.log(this+".getSync("+key+")->"+null);
+			}
 			return null;
+		}
+		
+		if (ENABLE_LOG) {
+			GWT.log(this+".getSync("+key+")->deserializing"+value);
 		}
 		
 		Object res = serializer.deserialize(value);
@@ -127,9 +134,7 @@ public class JsMapConnection implements MapConnection {
 
 	private native String getSyncJs(JavaScriptObject source, String key)/*-{ 
 																	var value = source.getSync(key);
-																	if (value === null) {
-																	   return "<!--NULLVALUE-->";
-																	} 
+																	
 																	return value;
 																	}-*/;
 	
