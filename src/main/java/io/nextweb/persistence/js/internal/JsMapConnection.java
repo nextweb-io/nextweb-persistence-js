@@ -92,10 +92,10 @@ public class JsMapConnection implements MapConnection {
 
 	@Override
 	public Object getSync(String key) {
-		return getSyncJs(source, key);
+		return serializer.deserialize(getSyncJs(source, key));
 	}
 
-	private native Object getSyncJs(JavaScriptObject source, String key)/*-{ 
+	private native String getSyncJs(JavaScriptObject source, String key)/*-{ 
 																	return source.getSync(key);
 																	}-*/;
 	
