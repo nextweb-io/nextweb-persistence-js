@@ -51,7 +51,7 @@ public class JsMapConnection implements MapConnection {
 			final PutCallback callback) {
 
 		if (ENABLE_LOG) {
-			GWT.log(this+".put("+key+", "+value+")");
+			GWT.log(this+".put("+key+", "+value+":"+value.getClass()+")");
 		}
 		
 		String serializedValue = serializer.serialize(value);
