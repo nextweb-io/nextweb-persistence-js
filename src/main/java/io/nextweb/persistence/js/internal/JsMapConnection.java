@@ -134,6 +134,9 @@ public class JsMapConnection implements MapConnection {
 
 					@Override
 					public void call() {
+						if (ENABLE_LOG) {
+							GWT.log(this+".remove("+key+")->onSuccess");
+						}
 						callback.onSuccess();
 					}
 				});
@@ -150,11 +153,17 @@ public class JsMapConnection implements MapConnection {
 
 	@Override
 	public final void close(final CloseCallback callback) {
+		if (ENABLE_LOG) {
+			GWT.log(this+".close()");
+		}
 		final JavaScriptObject onSuccess = FnJs
 				.exportCallback(new EmptyCallback() {
 
 					@Override
 					public void call() {
+						if (ENABLE_LOG) {
+							GWT.log(this+".close()->onSuccess");
+						}
 						callback.onSuccess();
 					}
 				});
@@ -171,12 +180,17 @@ public class JsMapConnection implements MapConnection {
 
 	@Override
 	public final void commit(final CommitCallback callback) {
-
+		if (ENABLE_LOG) {
+			GWT.log(this+".commit()");
+		}
 		final JavaScriptObject onSuccess = FnJs
 				.exportCallback(new EmptyCallback() {
 
 					@Override
 					public void call() {
+						if (ENABLE_LOG) {
+							GWT.log(this+".commit()->onSuccess");
+						}
 						callback.onSuccess();
 					}
 				});
@@ -193,6 +207,9 @@ public class JsMapConnection implements MapConnection {
 
 	@Override
 	public void clearCache() {
+		if (ENABLE_LOG) {
+			GWT.log(this+".clearCache()");
+		}
 		clearCacheJs(source);
 	}
 
