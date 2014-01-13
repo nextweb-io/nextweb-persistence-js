@@ -18,7 +18,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 
 public class JsMapConnection implements MapConnection {
 
-	private final static boolean ENABLE_LOG = false;
+	private final static boolean ENABLE_LOG = true;
 	
 	private final JavaScriptObject source;
 	private final JsSerializer serializer;
