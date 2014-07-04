@@ -1,9 +1,13 @@
 package io.nextweb.persistence.js;
 
-public interface JsSerializer  {
+import nx.serializer.Serializer;
+import nx.serializer.utils.StringDestination;
+import nx.serializer.utils.StringSource;
 
-	public String serialize(Object obj);
+public interface JsSerializer extends Serializer<StringSource, StringDestination> {
 
-	public Object deserialize(String data);
+	//public String serialize(Object obj);
+
+	//public Object deserialize(String data);
 
 }

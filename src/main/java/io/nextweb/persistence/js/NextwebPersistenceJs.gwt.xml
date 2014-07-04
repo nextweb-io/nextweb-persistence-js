@@ -6,6 +6,8 @@
 	<inherits name='org.timepedia.exporter.Exporter' />
 	<inherits name="com.seanchenxi.gwt.storage.Storage" />
 	
+	<inherits name='nx.serializer.NxSerializer' />
+	
 	<set-property name="export" value="yes" />
 
 	<entry-point class='io.nextweb.persistence.js.internal.DummyEntryPoint' />
