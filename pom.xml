@@ -28,6 +28,13 @@
 	<!-- Dependent Modules -->
 	<dependencies>
 		<dependency>
+			<groupId>de.linnk.nx.serializer</groupId>
+			<artifactId>nxSerializer</artifactId>
+			<version>[0.0.1,)</version>
+		</dependency>
+
+
+		<dependency>
 			<groupId>io.nextweb.persistence</groupId>
 			<artifactId>nextweb-persistence</artifactId>
 			<version>[0.0.1,)</version>
