@@ -1,5 +1,7 @@
 package io.nextweb.persistence.js.internal;
 
+import nx.serializer.NxSerializer;
+import nx.serializer.utils.StringDestination;
 import io.nextweb.fn.Closure;
 import io.nextweb.fn.callbacks.FailureCallback;
 import io.nextweb.fn.js.FnJs;
@@ -54,8 +56,11 @@ public class JsMapConnection implements MapConnection {
 			GWT.log(this+".put("+key+", "+value+":"+value.getClass()+")");
 		}
 		
-		String serializedValue = serializer.serialize(value);
-
+		StringDestination stringDestination = NxSerializer.createStringDestination();
+		 serializer.serialize(value, stringDestination);
+		 String serializedValue= stringDestination.getDestination().getValue();
+		 
+		 
 		JavaScriptObject onSuccess = FnJs.exportCallback(new EmptyCallback() {
 
 			@Override
