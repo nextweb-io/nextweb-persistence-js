@@ -35,19 +35,7 @@ public class RpcSerializer implements JsSerializer {
 
 	@Override
 	public Object deserialize(StringSource source) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String serialize(Object obj) {
-
-		
-	}
-
-	@Override
-	public Object deserialize(String data) {
-
+		String data = source.getSource();
 		switch (data.charAt(0)) {
 		case 'S':
 			return data.substring(1);
@@ -64,6 +52,8 @@ public class RpcSerializer implements JsSerializer {
 		throw new RuntimeException("Unsupported serialization format: "
 				+ data.charAt(0) + " in data " + data);
 	}
+
+	
 
 	public RpcSerializer() {
 		super();
