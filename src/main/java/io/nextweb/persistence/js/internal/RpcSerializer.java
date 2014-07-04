@@ -2,6 +2,8 @@ package io.nextweb.persistence.js.internal;
 
 import java.io.Serializable;
 
+import nx.serializer.utils.StringDestination;
+import nx.serializer.utils.StringSource;
 import io.nextweb.persistence.js.JsSerializer;
 
 import com.google.gwt.user.client.rpc.SerializationException;
@@ -11,11 +13,13 @@ public class RpcSerializer implements JsSerializer {
 
 	private final StorageRPCSerializerImpl serializerImpl;
 
+	
+	
 	@Override
-	public String serialize(Object obj) {
-
+	public boolean serialize(Object obj, StringDestination dest) {
 		if (obj instanceof String) {
-			return "S" + (String) obj;
+			dest.getDestination().setValue( "S" + (String) obj);
+			return true;
 		}
 
 		try {
@@ -25,6 +29,19 @@ public class RpcSerializer implements JsSerializer {
 		} catch (SerializationException e) {
 			throw new RuntimeException(e);
 		}
+		return true;
+	}
+
+	@Override
+	public Object deserialize(StringSource source) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String serialize(Object obj) {
+
+		
 	}
 
 	@Override
