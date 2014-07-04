@@ -21,7 +21,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 public class JsMapConnection implements MapConnection {
 
 	private final static boolean ENABLE_LOG = false;
-	
+
 	private final JavaScriptObject source;
 	private final JsSerializer serializer;
 
@@ -41,7 +41,7 @@ public class JsMapConnection implements MapConnection {
 			@Override
 			public void apply(Object o) {
 				if (ENABLE_LOG) {
-					GWT.log(this+"->Operation failed: "+o);
+					GWT.log(this + "->Operation failed: " + o);
 				}
 				callback.onFailure(ExceptionUtils.convertJavaScriptException(o));
 			}
@@ -53,20 +53,22 @@ public class JsMapConnection implements MapConnection {
 			final PutCallback callback) {
 
 		if (ENABLE_LOG) {
-			GWT.log(this+".put("+key+", "+value+":"+value.getClass()+")");
+			GWT.log(this + ".put(" + key + ", " + value + ":"
+					+ value.getClass() + ")");
 		}
-		
-		StringDestination stringDestination = NxSerializer.createStringDestination();
-		 serializer.serialize(value, stringDestination);
-		 String serializedValue= stringDestination.getDestination().getValue();
-		 
-		 
+
+		StringDestination stringDestination = NxSerializer
+				.createStringDestination();
+		serializer.serialize(value, stringDestination);
+		String serializedValue = stringDestination.getDestination().getValue();
+
 		JavaScriptObject onSuccess = FnJs.exportCallback(new EmptyCallback() {
 
 			@Override
 			public void call() {
 				if (ENABLE_LOG) {
-					GWT.log(this+".put("+key+", "+value+")->onSuccess");
+					GWT.log(this + ".put(" + key + ", " + value
+							+ ")->onSuccess");
 				}
 				callback.onSuccess();
 			}
@@ -87,17 +89,17 @@ public class JsMapConnection implements MapConnection {
 	public final void get(final String key, final GetCallback callback) {
 
 		if (ENABLE_LOG) {
-			GWT.log(this+".get("+key+")");
+			GWT.log(this + ".get(" + key + ")");
 		}
-		
+
 		JavaScriptObject onSuccess = FnJs.exportCallback(new Closure<Object>() {
 
 			@Override
 			public void apply(Object o) {
 				if (ENABLE_LOG) {
-					GWT.log(this+".get("+key+")->onSuccess="+o);
+					GWT.log(this + ".get(" + key + ")->onSuccess=" + o);
 				}
-				callback.onSuccess(serializer.deserialize((String) o));
+				callback.onSuccess(serializer.deserialize(NxSerializer.createStringSource((String) o)));
 			}
 
 		});
@@ -115,38 +117,38 @@ public class JsMapConnection implements MapConnection {
 	@Override
 	public Object getSync(String key) {
 		if (ENABLE_LOG) {
-			GWT.log(this+".getSync("+key+")");
+			GWT.log(this + ".getSync(" + key + ")");
 		}
 		String value = getSyncJs(source, key);
 		if (value == null) {
 			if (ENABLE_LOG) {
-				GWT.log(this+".getSync("+key+")->"+null);
+				GWT.log(this + ".getSync(" + key + ")->" + null);
 			}
 			return null;
 		}
-		
+
 		if (ENABLE_LOG) {
-			GWT.log(this+".getSync("+key+")->deserializing"+value);
+			GWT.log(this + ".getSync(" + key + ")->deserializing" + value);
 		}
-		
+
 		Object res = serializer.deserialize(value);
 		if (ENABLE_LOG) {
-			GWT.log(this+".getSync("+key+")->"+res);
+			GWT.log(this + ".getSync(" + key + ")->" + res);
 		}
-		
+
 		return res;
 	}
 
 	private native String getSyncJs(JavaScriptObject source, String key)/*-{ 
-																	var value = source.getSync(key);
-																	
-																	return value;
-																	}-*/;
-	
+																		var value = source.getSync(key);
+																		
+																		return value;
+																		}-*/;
+
 	@Override
 	public final void remove(final String key, final RemoveCallback callback) {
 		if (ENABLE_LOG) {
-			GWT.log(this+".remove("+key+")");
+			GWT.log(this + ".remove(" + key + ")");
 		}
 		final JavaScriptObject onSuccess = FnJs
 				.exportCallback(new EmptyCallback() {
@@ -154,7 +156,7 @@ public class JsMapConnection implements MapConnection {
 					@Override
 					public void call() {
 						if (ENABLE_LOG) {
-							GWT.log(this+".remove("+key+")->onSuccess");
+							GWT.log(this + ".remove(" + key + ")->onSuccess");
 						}
 						callback.onSuccess();
 					}
@@ -173,7 +175,7 @@ public class JsMapConnection implements MapConnection {
 	@Override
 	public final void close(final CloseCallback callback) {
 		if (ENABLE_LOG) {
-			GWT.log(this+".close()");
+			GWT.log(this + ".close()");
 		}
 		final JavaScriptObject onSuccess = FnJs
 				.exportCallback(new EmptyCallback() {
@@ -181,7 +183,7 @@ public class JsMapConnection implements MapConnection {
 					@Override
 					public void call() {
 						if (ENABLE_LOG) {
-							GWT.log(this+".close()->onSuccess");
+							GWT.log(this + ".close()->onSuccess");
 						}
 						callback.onSuccess();
 					}
@@ -200,7 +202,7 @@ public class JsMapConnection implements MapConnection {
 	@Override
 	public final void commit(final CommitCallback callback) {
 		if (ENABLE_LOG) {
-			GWT.log(this+".commit()");
+			GWT.log(this + ".commit()");
 		}
 		final JavaScriptObject onSuccess = FnJs
 				.exportCallback(new EmptyCallback() {
@@ -208,7 +210,7 @@ public class JsMapConnection implements MapConnection {
 					@Override
 					public void call() {
 						if (ENABLE_LOG) {
-							GWT.log(this+".commit()->onSuccess");
+							GWT.log(this + ".commit()->onSuccess");
 						}
 						callback.onSuccess();
 					}
@@ -227,7 +229,7 @@ public class JsMapConnection implements MapConnection {
 	@Override
 	public void clearCache() {
 		if (ENABLE_LOG) {
-			GWT.log(this+".clearCache()");
+			GWT.log(this + ".clearCache()");
 		}
 		clearCacheJs(source);
 	}
