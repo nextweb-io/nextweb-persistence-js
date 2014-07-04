@@ -131,7 +131,7 @@ public class JsMapConnection implements MapConnection {
 			GWT.log(this + ".getSync(" + key + ")->deserializing" + value);
 		}
 
-		Object res = serializer.deserialize(value);
+		Object res = serializer.deserialize(NxSerializer.createStringSource(value));
 		if (ENABLE_LOG) {
 			GWT.log(this + ".getSync(" + key + ")->" + res);
 		}
