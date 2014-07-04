@@ -13,8 +13,6 @@ public class RpcSerializer implements JsSerializer {
 
 	private final StorageRPCSerializerImpl serializerImpl;
 
-	
-	
 	@Override
 	public boolean serialize(Object obj, StringDestination dest) {
 		if (obj instanceof String) {
