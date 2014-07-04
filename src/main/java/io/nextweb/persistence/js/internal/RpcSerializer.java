@@ -23,13 +23,14 @@ public class RpcSerializer implements JsSerializer {
 		}
 
 		try {
-			return "O"
+			dest.getDestination().setValue( "O"
 					+ serializerImpl.serialize(Serializable.class,
-							(Serializable) obj);
+							(Serializable) obj));
+			return true;
 		} catch (SerializationException e) {
 			throw new RuntimeException(e);
 		}
-		return true;
+		
 	}
 
 	@Override
