@@ -2,7 +2,6 @@ package io.nextweb.persistence.js.internal;
 
 import nx.serializer.NxSerializer;
 import nx.serializer.utils.StringDestination;
-import io.nextweb.fn.Closure;
 import io.nextweb.fn.callbacks.FailureCallback;
 import io.nextweb.fn.js.FnJs;
 import io.nextweb.fn.js.callbacks.EmptyCallback;
@@ -17,6 +16,8 @@ import io.nextweb.persistence.js.JsSerializer;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
+
+import de.mxro.fn.Closure;
 
 public class JsMapConnection implements MapConnection {
 
