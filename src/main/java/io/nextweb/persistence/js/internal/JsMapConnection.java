@@ -49,7 +49,7 @@ public class JsMapConnection implements MapConnection {
 
 	@Override
 	public void put(final String key, final Object value,
-			final PutCallback callback) {
+			final SimpleCallback callback) {
 
 		if (ENABLE_LOG) {
 			GWT.log(this + ".put(" + key + ", " + value + ":"
