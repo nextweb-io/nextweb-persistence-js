@@ -16,7 +16,7 @@ import de.mxro.async.callbacks.SimpleCallback;
 import de.mxro.async.callbacks.ValueCallback;
 import de.mxro.fn.Closure;
 
-public class JsMapConnection implements MapConnection {
+public class JsMapConnection implements MapConnection<Object> {
 
 	private final static boolean ENABLE_LOG = false;
 
@@ -84,7 +84,7 @@ public class JsMapConnection implements MapConnection {
 																					}-*/;
 
 	@Override
-	public final void get(final String key, final ValueCallback<T> callback) {
+	public final void get(final String key, final ValueCallback<Object> callback) {
 
 		if (ENABLE_LOG) {
 			GWT.log(this + ".get(" + key + ")");
