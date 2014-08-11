@@ -7,7 +7,6 @@ import io.nextweb.persistence.connections.callbacks.CloseCallback;
 import io.nextweb.persistence.connections.callbacks.CommitCallback;
 import io.nextweb.persistence.connections.callbacks.GetCallback;
 import io.nextweb.persistence.connections.callbacks.PutCallback;
-import io.nextweb.persistence.connections.callbacks.RemoveCallback;
 import io.nextweb.persistence.js.JsSerializer;
 import io.nextweb.promise.js.FnJs;
 import io.nextweb.promise.js.callbacks.EmptyCallback;
@@ -17,6 +16,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 
 import de.mxro.async.callbacks.FailureCallback;
+import de.mxro.async.callbacks.SimpleCallback;
 import de.mxro.fn.Closure;
 
 public class JsMapConnection implements MapConnection {
@@ -147,7 +147,7 @@ public class JsMapConnection implements MapConnection {
 																		}-*/;
 
 	@Override
-	public final void remove(final String key, final RemoveCallback callback) {
+	public final void remove(final String key, final SimpleCallback callback) {
 		if (ENABLE_LOG) {
 			GWT.log(this + ".remove(" + key + ")");
 		}
