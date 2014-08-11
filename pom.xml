@@ -41,8 +41,8 @@
 		</dependency>
 
 		<dependency>
-			<groupId>io.nextweb.fn.js</groupId>
-			<artifactId>nextweb-fn-js</artifactId>
+			<groupId>io.nextweb.promise.js</groupId>
+			<artifactId>nextweb-promise-js</artifactId>
 			<version>[0.0.1,)</version>
 		</dependency>
 		<dependency>
@@ -50,9 +50,7 @@
 			<artifactId>thrdGwtStorage11</artifactId>
 			<version>[0.0.1,)</version>
 		</dependency>
-		<!-- <dependency> <groupId>de.mxro.thrd.gwtexporter250</groupId> <artifactId>thrdGwtExporter250</artifactId> 
-			<version>[0.0.1,)</version> </dependency> <dependency> <groupId>de.mxro.thrd.gwtuser251</groupId> 
-			<artifactId>thrdGWTUser251</artifactId> <version>[0.0.1,)</version> </dependency> -->
+
 
 		<!-- only for gwt maven plugin!!! -->
 
