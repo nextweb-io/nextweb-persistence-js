@@ -2,9 +2,6 @@ package io.nextweb.persistence.js.internal;
 
 import nx.serializer.NxSerializer;
 import nx.serializer.utils.StringDestination;
-import io.nextweb.fn.js.FnJs;
-import io.nextweb.fn.js.callbacks.EmptyCallback;
-import io.nextweb.fn.js.exceptions.ExceptionUtils;
 import io.nextweb.persistence.connections.MapConnection;
 import io.nextweb.persistence.connections.callbacks.CloseCallback;
 import io.nextweb.persistence.connections.callbacks.CommitCallback;
@@ -12,6 +9,9 @@ import io.nextweb.persistence.connections.callbacks.GetCallback;
 import io.nextweb.persistence.connections.callbacks.PutCallback;
 import io.nextweb.persistence.connections.callbacks.RemoveCallback;
 import io.nextweb.persistence.js.JsSerializer;
+import io.nextweb.promise.js.FnJs;
+import io.nextweb.promise.js.callbacks.EmptyCallback;
+import io.nextweb.promise.js.exceptions.ExceptionUtils;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
