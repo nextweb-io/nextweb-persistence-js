@@ -1,14 +1,13 @@
 package io.nextweb.persistence.js.internal;
 
-import nx.serializer.NxSerializer;
-import nx.serializer.utils.StringDestination;
 import io.nextweb.persistence.connections.MapConnection;
 import io.nextweb.persistence.connections.callbacks.GetCallback;
-import io.nextweb.persistence.connections.callbacks.PutCallback;
 import io.nextweb.persistence.js.JsSerializer;
 import io.nextweb.promise.js.FnJs;
 import io.nextweb.promise.js.callbacks.EmptyCallback;
 import io.nextweb.promise.js.exceptions.ExceptionUtils;
+import nx.serializer.NxSerializer;
+import nx.serializer.utils.StringDestination;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
