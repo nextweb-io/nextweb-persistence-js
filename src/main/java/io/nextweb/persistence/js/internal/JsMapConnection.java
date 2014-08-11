@@ -1,6 +1,5 @@
 package io.nextweb.persistence.js.internal;
 
-import io.nextweb.persistence.connections.MapConnection;
 import io.nextweb.persistence.js.JsSerializer;
 import io.nextweb.promise.js.FnJs;
 import io.nextweb.promise.js.callbacks.EmptyCallback;
@@ -14,6 +13,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 import de.mxro.async.callbacks.FailureCallback;
 import de.mxro.async.callbacks.SimpleCallback;
 import de.mxro.async.callbacks.ValueCallback;
+import de.mxro.async.map.MapConnection;
 import de.mxro.fn.Closure;
 
 public class JsMapConnection implements MapConnection<Object> {
