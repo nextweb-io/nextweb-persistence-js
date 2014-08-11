@@ -3,8 +3,6 @@ package io.nextweb.persistence.js.internal;
 import nx.serializer.NxSerializer;
 import nx.serializer.utils.StringDestination;
 import io.nextweb.persistence.connections.MapConnection;
-import io.nextweb.persistence.connections.callbacks.CloseCallback;
-import io.nextweb.persistence.connections.callbacks.CommitCallback;
 import io.nextweb.persistence.connections.callbacks.GetCallback;
 import io.nextweb.persistence.connections.callbacks.PutCallback;
 import io.nextweb.persistence.js.JsSerializer;
@@ -174,7 +172,7 @@ public class JsMapConnection implements MapConnection {
 																	}-*/;
 
 	@Override
-	public final void close(final CloseCallback callback) {
+	public final void close(final SimpleCallback callback) {
 		if (ENABLE_LOG) {
 			GWT.log(this + ".close()");
 		}
@@ -201,7 +199,7 @@ public class JsMapConnection implements MapConnection {
 																	}-*/;
 
 	@Override
-	public final void commit(final CommitCallback callback) {
+	public final void commit(final SimpleCallback callback) {
 		if (ENABLE_LOG) {
 			GWT.log(this + ".commit()");
 		}
