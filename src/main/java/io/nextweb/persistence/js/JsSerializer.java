@@ -1,8 +1,8 @@
 package io.nextweb.persistence.js;
 
 import de.mxro.serialization.Serializer;
-import nx.serializer.utils.StringDestination;
-import nx.serializer.utils.StringSource;
+import de.mxro.serialization.string.StringDestination;
+import de.mxro.serialization.string.StringSource;
 
 public interface JsSerializer extends Serializer<StringSource, StringDestination> {
 

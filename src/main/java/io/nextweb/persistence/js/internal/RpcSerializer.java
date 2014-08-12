@@ -2,12 +2,13 @@ package io.nextweb.persistence.js.internal;
 
 import java.io.Serializable;
 
-import nx.serializer.utils.StringDestination;
-import nx.serializer.utils.StringSource;
 import io.nextweb.persistence.js.JsSerializer;
 
 import com.google.gwt.user.client.rpc.SerializationException;
 import com.seanchenxi.gwt.storage.client.serializer.StorageRPCSerializerImpl;
+
+import de.mxro.serialization.string.StringDestination;
+import de.mxro.serialization.string.StringSource;
 
 public class RpcSerializer implements JsSerializer {
 

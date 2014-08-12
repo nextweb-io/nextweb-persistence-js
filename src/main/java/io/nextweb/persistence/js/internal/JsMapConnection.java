@@ -5,7 +5,6 @@ import io.nextweb.promise.js.FnJs;
 import io.nextweb.promise.js.callbacks.EmptyCallback;
 import io.nextweb.promise.js.exceptions.ExceptionUtils;
 import nx.serializer.NxSerializer;
-import nx.serializer.utils.StringDestination;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -16,6 +15,7 @@ import de.mxro.async.callbacks.ValueCallback;
 import de.mxro.async.map.AsyncMap;
 import de.mxro.async.map.operations.MapOperation;
 import de.mxro.fn.Closure;
+import de.mxro.serialization.string.StringDestination;
 
 public class JsMapConnection implements AsyncMap<String, Object> {
 
