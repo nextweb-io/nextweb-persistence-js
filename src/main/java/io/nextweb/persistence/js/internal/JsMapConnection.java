@@ -173,7 +173,7 @@ public class JsMapConnection implements AsyncMap<String, Object> {
 	@Override
 	public final void stop(final SimpleCallback callback) {
 		if (ENABLE_LOG) {
-			GWT.log(this + ".close()");
+			GWT.log(this + ".stop()");
 		}
 		final JavaScriptObject onSuccess = FnJs
 				.exportCallback(new EmptyCallback() {
@@ -181,7 +181,7 @@ public class JsMapConnection implements AsyncMap<String, Object> {
 					@Override
 					public void call() {
 						if (ENABLE_LOG) {
-							GWT.log(this + ".close()->onSuccess");
+							GWT.log(this + ".stop()->onSuccess");
 						}
 						callback.onSuccess();
 					}
@@ -195,6 +195,33 @@ public class JsMapConnection implements AsyncMap<String, Object> {
 	private native void closeJs(JavaScriptObject source,
 			JavaScriptObject onSuccess, JavaScriptObject onFailure)/*-{ 
 																	source.close(onSuccess, onFailure);
+																	}-*/;
+	
+	@Override
+	public void start(final SimpleCallback callback) {
+		if (ENABLE_LOG) {
+			GWT.log(this + ".start()");
+		}
+		final JavaScriptObject onSuccess = FnJs
+				.exportCallback(new EmptyCallback() {
+
+					@Override
+					public void call() {
+						if (ENABLE_LOG) {
+							GWT.log(this + ".start()->onSuccess");
+						}
+						callback.onSuccess();
+					}
+				});
+
+		final JavaScriptObject onFailure = createFailureCallback(callback);
+
+		startJs(source, onSuccess, onFailure);
+	}
+
+	private native void startJs(JavaScriptObject source,
+			JavaScriptObject onSuccess, JavaScriptObject onFailure)/*-{ 
+																	source.start(onSuccess, onFailure);
 																	}-*/;
 
 	@Override
