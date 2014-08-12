@@ -85,6 +85,26 @@ public class JsMapConnection implements AsyncMap<String, Object> {
 																					}-*/;
 
 	@Override
+	public void putSync(String key, Object value) {
+		if (ENABLE_LOG) {
+			GWT.log(this + ".putSync(" + key + ", " + value + ":"
+					+ value.getClass() + ")");
+		}
+
+		StringDestination stringDestination = NxSerializer
+				.createStringDestination();
+		serializer.serialize(value, stringDestination);
+		String serializedValue = stringDestination.getDestination().getValue();
+
+		putSyncJs(source, key, serializedValue);
+	}
+
+	private native void putSyncJs(JavaScriptObject source, String key,
+			String value)/*-{
+																					source.putSync(key, value);
+																					}-*/;
+
+	@Override
 	public final void get(final String key, final ValueCallback<Object> callback) {
 
 		if (ENABLE_LOG) {
