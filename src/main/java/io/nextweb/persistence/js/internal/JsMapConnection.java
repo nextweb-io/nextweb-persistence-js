@@ -4,7 +4,6 @@ import io.nextweb.persistence.js.JsSerializer;
 import io.nextweb.promise.js.FnJs;
 import io.nextweb.promise.js.callbacks.EmptyCallback;
 import io.nextweb.promise.js.exceptions.ExceptionUtils;
-import nx.serializer.NxSerializer;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -15,6 +14,7 @@ import de.mxro.async.callbacks.ValueCallback;
 import de.mxro.async.map.AsyncMap;
 import de.mxro.async.map.operations.MapOperation;
 import de.mxro.fn.Closure;
+import de.mxro.serialization.Serialization;
 import de.mxro.serialization.string.StringDestination;
 
 public class JsMapConnection implements AsyncMap<String, Object> {
@@ -56,7 +56,7 @@ public class JsMapConnection implements AsyncMap<String, Object> {
 					+ value.getClass() + ")");
 		}
 
-		StringDestination stringDestination = NxSerializer
+		StringDestination stringDestination = Serialization
 				.createStringDestination();
 		serializer.serialize(value, stringDestination);
 		String serializedValue = stringDestination.getDestination().getValue();
@@ -91,7 +91,7 @@ public class JsMapConnection implements AsyncMap<String, Object> {
 					+ value.getClass() + ")");
 		}
 
-		StringDestination stringDestination = NxSerializer
+		StringDestination stringDestination = Serialization
 				.createStringDestination();
 		serializer.serialize(value, stringDestination);
 		String serializedValue = stringDestination.getDestination().getValue();
@@ -118,7 +118,7 @@ public class JsMapConnection implements AsyncMap<String, Object> {
 				if (ENABLE_LOG) {
 					GWT.log(this + ".get(" + key + ")->onSuccess=" + o);
 				}
-				callback.onSuccess(serializer.deserialize(NxSerializer
+				callback.onSuccess(serializer.deserialize(Serialization
 						.createStringSource((String) o)));
 			}
 
@@ -151,7 +151,7 @@ public class JsMapConnection implements AsyncMap<String, Object> {
 			GWT.log(this + ".getSync(" + key + ")->deserializing" + value);
 		}
 
-		Object res = serializer.deserialize(NxSerializer
+		Object res = serializer.deserialize(Serialization
 				.createStringSource(value));
 		if (ENABLE_LOG) {
 			GWT.log(this + ".getSync(" + key + ")->" + res);
