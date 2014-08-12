@@ -98,7 +98,8 @@ public class JsMapConnection implements AsyncMap<String, Object> {
 				if (ENABLE_LOG) {
 					GWT.log(this + ".get(" + key + ")->onSuccess=" + o);
 				}
-				callback.onSuccess(serializer.deserialize(NxSerializer.createStringSource((String) o)));
+				callback.onSuccess(serializer.deserialize(NxSerializer
+						.createStringSource((String) o)));
 			}
 
 		});
@@ -130,7 +131,8 @@ public class JsMapConnection implements AsyncMap<String, Object> {
 			GWT.log(this + ".getSync(" + key + ")->deserializing" + value);
 		}
 
-		Object res = serializer.deserialize(NxSerializer.createStringSource(value));
+		Object res = serializer.deserialize(NxSerializer
+				.createStringSource(value));
 		if (ENABLE_LOG) {
 			GWT.log(this + ".getSync(" + key + ")->" + res);
 		}
@@ -172,6 +174,20 @@ public class JsMapConnection implements AsyncMap<String, Object> {
 																	}-*/;
 
 	@Override
+	public void removeSync(String key) {
+		if (ENABLE_LOG) {
+			GWT.log(this + ".removeSync(" + key + ")");
+		}
+		removeSyncJs(source, key);
+
+	}
+
+	private native void removeSyncJs(JavaScriptObject source, String key)/*-{ 
+																			source.removeSync(key);
+
+																			}-*/;
+
+	@Override
 	public final void stop(final SimpleCallback callback) {
 		if (ENABLE_LOG) {
 			GWT.log(this + ".stop()");
@@ -197,7 +213,7 @@ public class JsMapConnection implements AsyncMap<String, Object> {
 			JavaScriptObject onSuccess, JavaScriptObject onFailure)/*-{ 
 																	source.close(onSuccess, onFailure);
 																	}-*/;
-	
+
 	@Override
 	public void start(final SimpleCallback callback) {
 		if (ENABLE_LOG) {
@@ -252,15 +268,11 @@ public class JsMapConnection implements AsyncMap<String, Object> {
 																	source.commit(onSuccess, onFailure);
 																	}-*/;
 
-	
-	
 	@Override
 	public void performOperation(MapOperation operation) {
 		if (ENABLE_LOG) {
 			GWT.log(this + ".performOperation() XXXX> Ignored");
 		}
 	}
-
-	
 
 }
