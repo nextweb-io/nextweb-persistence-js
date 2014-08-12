@@ -14,6 +14,7 @@ import de.mxro.async.callbacks.FailureCallback;
 import de.mxro.async.callbacks.SimpleCallback;
 import de.mxro.async.callbacks.ValueCallback;
 import de.mxro.async.map.AsyncMap;
+import de.mxro.async.map.operations.MapOperation;
 import de.mxro.fn.Closure;
 
 public class JsMapConnection implements AsyncMap<String, Object> {
@@ -254,15 +255,12 @@ public class JsMapConnection implements AsyncMap<String, Object> {
 	
 	
 	@Override
-	public void clearCache() {
+	public void performOperation(MapOperation operation) {
 		if (ENABLE_LOG) {
-			GWT.log(this + ".clearCache()");
+			GWT.log(this + ".performOperation() XXXX> Ignored");
 		}
-		clearCacheJs(source);
 	}
 
-	private native void clearCacheJs(JavaScriptObject source)/*-{
-																	source.clearCache();
-																	}-*/;
+	
 
 }
