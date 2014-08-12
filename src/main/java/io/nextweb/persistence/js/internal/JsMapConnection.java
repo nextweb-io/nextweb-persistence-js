@@ -206,12 +206,12 @@ public class JsMapConnection implements AsyncMap<String, Object> {
 
 		final JavaScriptObject onFailure = createFailureCallback(callback);
 
-		closeJs(source, onSuccess, onFailure);
+		stopJs(source, onSuccess, onFailure);
 	}
 
-	private native void closeJs(JavaScriptObject source,
+	private native void stopJs(JavaScriptObject source,
 			JavaScriptObject onSuccess, JavaScriptObject onFailure)/*-{ 
-																	source.close(onSuccess, onFailure);
+																	source.stop(onSuccess, onFailure);
 																	}-*/;
 
 	@Override
