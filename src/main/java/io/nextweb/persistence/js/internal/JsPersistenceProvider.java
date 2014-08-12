@@ -6,7 +6,7 @@ import io.nextweb.persistence.js.NextwebPersistenceJs;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
-import de.mxro.async.map.MapConnection;
+import de.mxro.async.map.AsyncMap;
 
 public class JsPersistenceProvider implements PersistenceProvider {
 
@@ -14,7 +14,7 @@ public class JsPersistenceProvider implements PersistenceProvider {
 	private final JsSerializer serializer;
 
 	@Override
-	public MapConnection createMap(String id) {
+	public AsyncMap<String, Object> createMap(String id) {
 
 		return NextwebPersistenceJs.wrapMapConnection(serializer,
 				createMapJs(id));
