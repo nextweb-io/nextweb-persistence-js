@@ -1,6 +1,6 @@
 package io.nextweb.persistence.js;
 
-import nx.serializer.Serializer;
+import de.mxro.serialization.Serializer;
 import nx.serializer.utils.StringDestination;
 import nx.serializer.utils.StringSource;
 
