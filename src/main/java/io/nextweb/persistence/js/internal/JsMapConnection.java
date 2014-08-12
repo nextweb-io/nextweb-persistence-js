@@ -13,10 +13,10 @@ import com.google.gwt.core.client.JavaScriptObject;
 import de.mxro.async.callbacks.FailureCallback;
 import de.mxro.async.callbacks.SimpleCallback;
 import de.mxro.async.callbacks.ValueCallback;
-import de.mxro.async.map.MapConnection;
+import de.mxro.async.map.AsyncMap;
 import de.mxro.fn.Closure;
 
-public class JsMapConnection implements MapConnection<Object> {
+public class JsMapConnection implements AsyncMap<String, Object> {
 
 	private final static boolean ENABLE_LOG = false;
 
@@ -171,7 +171,7 @@ public class JsMapConnection implements MapConnection<Object> {
 																	}-*/;
 
 	@Override
-	public final void close(final SimpleCallback callback) {
+	public final void stop(final SimpleCallback callback) {
 		if (ENABLE_LOG) {
 			GWT.log(this + ".close()");
 		}
@@ -224,6 +224,8 @@ public class JsMapConnection implements MapConnection<Object> {
 																	source.commit(onSuccess, onFailure);
 																	}-*/;
 
+	
+	
 	@Override
 	public void clearCache() {
 		if (ENABLE_LOG) {
