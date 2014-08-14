@@ -35,8 +35,8 @@
 
 
 		<dependency>
-			<groupId>io.nextweb.persistence</groupId>
-			<artifactId>nextweb-persistence</artifactId>
+			<groupId>de.mxro.async.map</groupId>
+			<artifactId>async-map</artifactId>
 			<version>[0.0.1,)</version>
 		</dependency>
 
