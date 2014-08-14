@@ -1,6 +1,5 @@
 package io.nextweb.persistence.js;
 
-import io.nextweb.persistence.PersistenceProvider;
 import io.nextweb.persistence.js.internal.JsMapConnection;
 import io.nextweb.persistence.js.internal.JsPersistenceProvider;
 import io.nextweb.persistence.js.internal.RpcSerializer;
