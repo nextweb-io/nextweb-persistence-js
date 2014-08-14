@@ -2,7 +2,7 @@
 <!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 2.4.0//EN" "http://google-web-toolkit.googlecode.com/svn/tags/2.4.0/distro-source/core/src/gwt-module.dtd">
 <module rename-to="nextwebfnjs">
 	<inherits name='io.nextweb.fn.NextwebFn' />
-	<inherits name='io.nextweb.persistence.NextwebPersistence' />
+	<inherits name='de.mxro.async.map.AsyncMap' />
 	<inherits name='org.timepedia.exporter.Exporter' />
 	<inherits name="com.seanchenxi.gwt.storage.Storage" />
 	
