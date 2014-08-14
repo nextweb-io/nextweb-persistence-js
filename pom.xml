@@ -28,8 +28,8 @@
 	<!-- Dependent Modules -->
 	<dependencies>
 		<dependency>
-			<groupId>de.linnk.nx.serializer</groupId>
-			<artifactId>nxSerializer</artifactId>
+			<groupId>de.mxro.serialization</groupId>
+			<artifactId>serialization-api</artifactId>
 			<version>[0.0.1,)</version>
 		</dependency>
 
