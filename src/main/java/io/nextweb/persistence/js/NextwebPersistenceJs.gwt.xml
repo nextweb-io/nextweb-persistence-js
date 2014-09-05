@@ -6,7 +6,7 @@
 	<inherits name='org.timepedia.exporter.Exporter' />
 	<inherits name="com.seanchenxi.gwt.storage.Storage" />
 	
-	<inherits name='nx.serializer.NxSerializer' />
+	<!-- <inherits name='nx.serializer.NxSerializer' /> -->
 	
 	<set-property name="export" value="yes" />
 
