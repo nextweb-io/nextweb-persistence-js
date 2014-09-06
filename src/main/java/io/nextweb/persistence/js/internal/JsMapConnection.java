@@ -6,9 +6,6 @@ import io.nextweb.promise.js.callbacks.EmptyCallback;
 import io.nextweb.promise.js.callbacks.JsSimpleCallbackWrapper;
 import io.nextweb.promise.js.exceptions.ExceptionUtils;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import org.timepedia.exporter.client.ExporterUtil;
 
 import com.google.gwt.core.client.GWT;
@@ -229,31 +226,14 @@ public class JsMapConnection implements AsyncMap<String, Object> {
 
     @Override
     public void start(final SimpleCallback callback) {
-        if (ENABLE_LOG) {
-            final Logger logger = Logger.getLogger("TEST");
-            logger.log(Level.SEVERE, "start...");
-            GWT.log(this + ".start()");
-        }
-        final JavaScriptObject onSuccess = FnJs.exportCallback(new EmptyCallback() {
 
-            @Override
-            public void call() {
-                if (ENABLE_LOG) {
-                    final Logger logger = Logger.getLogger("TEST");
-                    logger.log(Level.SEVERE, "start success!");
-                    GWT.log(this + ".start()->onSuccess");
-                }
-                callback.onSuccess();
-            }
-        });
+        final JavaScriptObject jscallback = ExporterUtil.wrap(JsSimpleCallbackWrapper.wrap(callback));
 
-        final JavaScriptObject onFailure = createFailureCallback(callback);
-
-        startJs(source, onSuccess, onFailure);
+        startJs(source, jscallback);
     }
 
-    private native void startJs(JavaScriptObject source, JavaScriptObject onSuccess, JavaScriptObject onFailure)/*-{ 
-                                                                                                                source.start(onSuccess, onFailure);
+    private native void startJs(JavaScriptObject source, JavaScriptObject callback)/*-{ 
+                                                                                                                source.start(callback);
                                                                                                                 }-*/;
 
     @Override
@@ -264,7 +244,7 @@ public class JsMapConnection implements AsyncMap<String, Object> {
 
         final JavaScriptObject jscallback = ExporterUtil.wrap(JsSimpleCallbackWrapper.wrap(callback));
 
-        commitJs(source, callback);
+        commitJs(source, jscallback);
     }
 
     private native void commitJs(JavaScriptObject source, JavaScriptObject callback)/*-{
