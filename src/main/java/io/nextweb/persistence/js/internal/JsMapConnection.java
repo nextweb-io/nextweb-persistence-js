@@ -19,280 +19,263 @@ import de.mxro.serialization.string.StringDestination;
 
 public class JsMapConnection implements AsyncMap<String, Object> {
 
-	private final static boolean ENABLE_LOG = false;
+    private final static boolean ENABLE_LOG = true;
 
-	private final JavaScriptObject source;
-	private final JsSerializer serializer;
+    private final JavaScriptObject source;
+    private final JsSerializer serializer;
 
-	public JsMapConnection(JavaScriptObject source, JsSerializer serializer) {
-		super();
-		if (source == null) {
-			throw new IllegalArgumentException("source should not be null.");
-		}
-		this.source = source;
-		this.serializer = serializer;
-	}
+    public JsMapConnection(final JavaScriptObject source, final JsSerializer serializer) {
+        super();
+        if (source == null) {
+            throw new IllegalArgumentException("source should not be null.");
+        }
+        this.source = source;
+        this.serializer = serializer;
+    }
 
-	private JavaScriptObject createFailureCallback(
-			final FailureCallback callback) {
-		return FnJs.exportCallback(new Closure<Object>() {
+    private JavaScriptObject createFailureCallback(final FailureCallback callback) {
+        return FnJs.exportCallback(new Closure<Object>() {
 
-			@Override
-			public void apply(Object o) {
-				if (ENABLE_LOG) {
-					GWT.log(this + "->Operation failed: " + o);
-				}
-				callback.onFailure(ExceptionUtils.convertJavaScriptException(o));
-			}
-		});
-	}
+            @Override
+            public void apply(final Object o) {
+                if (ENABLE_LOG) {
+                    GWT.log(this + "->Operation failed: " + o);
+                }
+                callback.onFailure(ExceptionUtils.convertJavaScriptException(o));
+            }
+        });
+    }
 
-	@Override
-	public void put(final String key, final Object value,
-			final SimpleCallback callback) {
+    @Override
+    public void put(final String key, final Object value, final SimpleCallback callback) {
 
-		if (ENABLE_LOG) {
-			GWT.log(this + ".put(" + key + ", " + value + ":"
-					+ value.getClass() + ")");
-		}
+        if (ENABLE_LOG) {
+            GWT.log(this + ".put(" + key + ", " + value + ":" + value.getClass() + ")");
+        }
 
-		StringDestination stringDestination = Serialization
-				.createStringDestination();
-		serializer.serialize(value, stringDestination);
-		String serializedValue = stringDestination.getDestination().getValue();
+        final StringDestination stringDestination = Serialization.createStringDestination();
+        serializer.serialize(value, stringDestination);
+        final String serializedValue = stringDestination.getDestination().getValue();
 
-		JavaScriptObject onSuccess = FnJs.exportCallback(new EmptyCallback() {
+        final JavaScriptObject onSuccess = FnJs.exportCallback(new EmptyCallback() {
 
-			@Override
-			public void call() {
-				if (ENABLE_LOG) {
-					GWT.log(this + ".put(" + key + ", " + value
-							+ ")->onSuccess");
-				}
-				callback.onSuccess();
-			}
-		});
+            @Override
+            public void call() {
+                if (ENABLE_LOG) {
+                    GWT.log(this + ".put(" + key + ", " + value + ")->onSuccess");
+                }
+                callback.onSuccess();
+            }
+        });
 
-		JavaScriptObject onFailure = createFailureCallback(callback);
+        final JavaScriptObject onFailure = createFailureCallback(callback);
 
-		putJs(source, key, serializedValue, onSuccess, onFailure);
+        putJs(source, key, serializedValue, onSuccess, onFailure);
 
-	}
+    }
 
-	private native void putJs(JavaScriptObject source, String key,
-			String value, JavaScriptObject onSuccess, JavaScriptObject onFailure)/*-{
-																					source.put(key, value, onSuccess, onFailure);
-																					}-*/;
+    private native void putJs(JavaScriptObject source, String key, String value, JavaScriptObject onSuccess,
+            JavaScriptObject onFailure)/*-{
+                                       source.put(key, value, onSuccess, onFailure);
+                                       }-*/;
 
-	@Override
-	public void putSync(String key, Object value) {
-		if (ENABLE_LOG) {
-			GWT.log(this + ".putSync(" + key + ", " + value + ":"
-					+ value.getClass() + ")");
-		}
+    @Override
+    public void putSync(final String key, final Object value) {
+        if (ENABLE_LOG) {
+            GWT.log(this + ".putSync(" + key + ", " + value + ":" + value.getClass() + ")");
+        }
 
-		StringDestination stringDestination = Serialization
-				.createStringDestination();
-		serializer.serialize(value, stringDestination);
-		String serializedValue = stringDestination.getDestination().getValue();
+        final StringDestination stringDestination = Serialization.createStringDestination();
+        serializer.serialize(value, stringDestination);
+        final String serializedValue = stringDestination.getDestination().getValue();
 
-		putSyncJs(source, key, serializedValue);
-	}
+        putSyncJs(source, key, serializedValue);
+    }
 
-	private native void putSyncJs(JavaScriptObject source, String key,
-			String value)/*-{
-																					source.putSync(key, value);
-																					}-*/;
+    private native void putSyncJs(JavaScriptObject source, String key, String value)/*-{
+                                                                                    														source.putSync(key, value);
+                                                                                    														}-*/;
 
-	@Override
-	public final void get(final String key, final ValueCallback<Object> callback) {
+    @Override
+    public final void get(final String key, final ValueCallback<Object> callback) {
 
-		if (ENABLE_LOG) {
-			GWT.log(this + ".get(" + key + ")");
-		}
+        if (ENABLE_LOG) {
+            GWT.log(this + ".get(" + key + ")");
+        }
 
-		JavaScriptObject onSuccess = FnJs.exportCallback(new Closure<Object>() {
+        final JavaScriptObject onSuccess = FnJs.exportCallback(new Closure<Object>() {
 
-			@Override
-			public void apply(Object o) {
-				if (ENABLE_LOG) {
-					GWT.log(this + ".get(" + key + ")->onSuccess=" + o);
-				}
-				callback.onSuccess(serializer.deserialize(Serialization
-						.createStringSource((String) o)));
-			}
+            @Override
+            public void apply(final Object o) {
+                if (ENABLE_LOG) {
+                    GWT.log(this + ".get(" + key + ")->onSuccess=" + o);
+                }
+                callback.onSuccess(serializer.deserialize(Serialization.createStringSource((String) o)));
+            }
 
-		});
+        });
 
-		JavaScriptObject onFailure = createFailureCallback(callback);
+        final JavaScriptObject onFailure = createFailureCallback(callback);
 
-		getJs(source, key, onSuccess, onFailure);
-	}
+        getJs(source, key, onSuccess, onFailure);
+    }
 
-	private native void getJs(JavaScriptObject source, String key,
-			JavaScriptObject onSuccess, JavaScriptObject onFailure)/*-{ 
-																	source.get(key, onSuccess, onFailure);
-																	}-*/;
+    private native void getJs(JavaScriptObject source, String key, JavaScriptObject onSuccess,
+            JavaScriptObject onFailure)/*-{ 
+                                       source.get(key, onSuccess, onFailure);
+                                       }-*/;
 
-	@Override
-	public Object getSync(String key) {
-		if (ENABLE_LOG) {
-			GWT.log(this + ".getSync(" + key + ")");
-		}
-		String value = getSyncJs(source, key);
-		if (value == null) {
-			if (ENABLE_LOG) {
-				GWT.log(this + ".getSync(" + key + ")->" + null);
-			}
-			return null;
-		}
+    @Override
+    public Object getSync(final String key) {
+        if (ENABLE_LOG) {
+            GWT.log(this + ".getSync(" + key + ")");
+        }
+        final String value = getSyncJs(source, key);
+        if (value == null) {
+            if (ENABLE_LOG) {
+                GWT.log(this + ".getSync(" + key + ")->" + null);
+            }
+            return null;
+        }
 
-		if (ENABLE_LOG) {
-			GWT.log(this + ".getSync(" + key + ")->deserializing" + value);
-		}
+        if (ENABLE_LOG) {
+            GWT.log(this + ".getSync(" + key + ")->deserializing" + value);
+        }
 
-		Object res = serializer.deserialize(Serialization
-				.createStringSource(value));
-		if (ENABLE_LOG) {
-			GWT.log(this + ".getSync(" + key + ")->" + res);
-		}
+        final Object res = serializer.deserialize(Serialization.createStringSource(value));
+        if (ENABLE_LOG) {
+            GWT.log(this + ".getSync(" + key + ")->" + res);
+        }
 
-		return res;
-	}
+        return res;
+    }
 
-	private native String getSyncJs(JavaScriptObject source, String key)/*-{ 
-																		var value = source.getSync(key);
-																		
-																		return value;
-																		}-*/;
+    private native String getSyncJs(JavaScriptObject source, String key)/*-{ 
+                                                                        var value = source.getSync(key);
+                                                                        
+                                                                        return value;
+                                                                        }-*/;
 
-	@Override
-	public final void remove(final String key, final SimpleCallback callback) {
-		if (ENABLE_LOG) {
-			GWT.log(this + ".remove(" + key + ")");
-		}
-		final JavaScriptObject onSuccess = FnJs
-				.exportCallback(new EmptyCallback() {
+    @Override
+    public final void remove(final String key, final SimpleCallback callback) {
+        if (ENABLE_LOG) {
+            GWT.log(this + ".remove(" + key + ")");
+        }
+        final JavaScriptObject onSuccess = FnJs.exportCallback(new EmptyCallback() {
 
-					@Override
-					public void call() {
-						if (ENABLE_LOG) {
-							GWT.log(this + ".remove(" + key + ")->onSuccess");
-						}
-						callback.onSuccess();
-					}
-				});
+            @Override
+            public void call() {
+                if (ENABLE_LOG) {
+                    GWT.log(this + ".remove(" + key + ")->onSuccess");
+                }
+                callback.onSuccess();
+            }
+        });
 
-		final JavaScriptObject onFailure = createFailureCallback(callback);
+        final JavaScriptObject onFailure = createFailureCallback(callback);
 
-		removeJs(source, key, onSuccess, onFailure);
-	}
+        removeJs(source, key, onSuccess, onFailure);
+    }
 
-	private native void removeJs(JavaScriptObject source, String key,
-			JavaScriptObject onSuccess, JavaScriptObject onFailure)/*-{ 
-																	source.remove(key, onSuccess, onFailure);
-																	}-*/;
+    private native void removeJs(JavaScriptObject source, String key, JavaScriptObject onSuccess,
+            JavaScriptObject onFailure)/*-{ 
+                                       source.remove(key, onSuccess, onFailure);
+                                       }-*/;
 
-	@Override
-	public void removeSync(String key) {
-		if (ENABLE_LOG) {
-			GWT.log(this + ".removeSync(" + key + ")");
-		}
-		removeSyncJs(source, key);
+    @Override
+    public void removeSync(final String key) {
+        if (ENABLE_LOG) {
+            GWT.log(this + ".removeSync(" + key + ")");
+        }
+        removeSyncJs(source, key);
 
-	}
+    }
 
-	private native void removeSyncJs(JavaScriptObject source, String key)/*-{ 
-																			source.removeSync(key);
+    private native void removeSyncJs(JavaScriptObject source, String key)/*-{ 
+                                                                         source.removeSync(key);
 
-																			}-*/;
+                                                                         }-*/;
 
-	@Override
-	public final void stop(final SimpleCallback callback) {
-		if (ENABLE_LOG) {
-			GWT.log(this + ".stop()");
-		}
-		final JavaScriptObject onSuccess = FnJs
-				.exportCallback(new EmptyCallback() {
+    @Override
+    public final void stop(final SimpleCallback callback) {
+        if (ENABLE_LOG) {
+            GWT.log(this + ".stop()");
+        }
+        final JavaScriptObject onSuccess = FnJs.exportCallback(new EmptyCallback() {
 
-					@Override
-					public void call() {
-						if (ENABLE_LOG) {
-							GWT.log(this + ".stop()->onSuccess");
-						}
-						callback.onSuccess();
-					}
-				});
+            @Override
+            public void call() {
+                if (ENABLE_LOG) {
+                    GWT.log(this + ".stop()->onSuccess");
+                }
+                callback.onSuccess();
+            }
+        });
 
-		final JavaScriptObject onFailure = createFailureCallback(callback);
+        final JavaScriptObject onFailure = createFailureCallback(callback);
 
-		stopJs(source, onSuccess, onFailure);
-	}
+        stopJs(source, onSuccess, onFailure);
+    }
 
-	private native void stopJs(JavaScriptObject source,
-			JavaScriptObject onSuccess, JavaScriptObject onFailure)/*-{ 
-																	source.stop(onSuccess, onFailure);
-																	}-*/;
+    private native void stopJs(JavaScriptObject source, JavaScriptObject onSuccess, JavaScriptObject onFailure)/*-{ 
+                                                                                                               source.stop(onSuccess, onFailure);
+                                                                                                               }-*/;
 
-	@Override
-	public void start(final SimpleCallback callback) {
-		if (ENABLE_LOG) {
-			GWT.log(this + ".start()");
-		}
-		final JavaScriptObject onSuccess = FnJs
-				.exportCallback(new EmptyCallback() {
+    @Override
+    public void start(final SimpleCallback callback) {
+        if (ENABLE_LOG) {
+            GWT.log(this + ".start()");
+        }
+        final JavaScriptObject onSuccess = FnJs.exportCallback(new EmptyCallback() {
 
-					@Override
-					public void call() {
-						if (ENABLE_LOG) {
-							GWT.log(this + ".start()->onSuccess");
-						}
-						callback.onSuccess();
-					}
-				});
+            @Override
+            public void call() {
+                if (ENABLE_LOG) {
+                    GWT.log(this + ".start()->onSuccess");
+                }
+                callback.onSuccess();
+            }
+        });
 
-		final JavaScriptObject onFailure = createFailureCallback(callback);
+        final JavaScriptObject onFailure = createFailureCallback(callback);
 
-		startJs(source, onSuccess, onFailure);
-	}
+        startJs(source, onSuccess, onFailure);
+    }
 
-	private native void startJs(JavaScriptObject source,
-			JavaScriptObject onSuccess, JavaScriptObject onFailure)/*-{ 
-																	source.start(onSuccess, onFailure);
-																	}-*/;
+    private native void startJs(JavaScriptObject source, JavaScriptObject onSuccess, JavaScriptObject onFailure)/*-{ 
+                                                                                                                source.start(onSuccess, onFailure);
+                                                                                                                }-*/;
 
-	@Override
-	public final void commit(final SimpleCallback callback) {
-		if (ENABLE_LOG) {
-			GWT.log(this + ".commit()");
-		}
-		final JavaScriptObject onSuccess = FnJs
-				.exportCallback(new EmptyCallback() {
+    @Override
+    public final void commit(final SimpleCallback callback) {
+        if (ENABLE_LOG) {
+            GWT.log(this + ".commit()");
+        }
+        final JavaScriptObject onSuccess = FnJs.exportCallback(new EmptyCallback() {
 
-					@Override
-					public void call() {
-						if (ENABLE_LOG) {
-							GWT.log(this + ".commit()->onSuccess");
-						}
-						callback.onSuccess();
-					}
-				});
+            @Override
+            public void call() {
+                if (ENABLE_LOG) {
+                    GWT.log(this + ".commit()->onSuccess");
+                }
+                callback.onSuccess();
+            }
+        });
 
-		final JavaScriptObject onFailure = createFailureCallback(callback);
+        final JavaScriptObject onFailure = createFailureCallback(callback);
 
-		commitJs(source, onSuccess, onFailure);
-	}
+        commitJs(source, onSuccess, onFailure);
+    }
 
-	private native void commitJs(JavaScriptObject source,
-			JavaScriptObject onSuccess, JavaScriptObject onFailure)/*-{
-																	source.commit(onSuccess, onFailure);
-																	}-*/;
+    private native void commitJs(JavaScriptObject source, JavaScriptObject onSuccess, JavaScriptObject onFailure)/*-{
+                                                                                                                 source.commit(onSuccess, onFailure);
+                                                                                                                 }-*/;
 
-	@Override
-	public void performOperation(MapOperation operation) {
-		if (ENABLE_LOG) {
-			GWT.log(this + ".performOperation() XXXX> Ignored");
-		}
-	}
+    @Override
+    public void performOperation(final MapOperation operation) {
+        if (ENABLE_LOG) {
+            GWT.log(this + ".performOperation() XXXX> Ignored");
+        }
+    }
 
 }
