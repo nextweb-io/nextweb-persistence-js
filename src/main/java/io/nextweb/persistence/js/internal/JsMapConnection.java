@@ -201,27 +201,14 @@ public class JsMapConnection implements AsyncMap<String, Object> {
 
     @Override
     public final void stop(final SimpleCallback callback) {
-        if (ENABLE_LOG) {
-            GWT.log(this + ".stop()");
-        }
-        final JavaScriptObject onSuccess = FnJs.exportCallback(new EmptyCallback() {
 
-            @Override
-            public void call() {
-                if (ENABLE_LOG) {
-                    GWT.log(this + ".stop()->onSuccess");
-                }
-                callback.onSuccess();
-            }
-        });
+        final JavaScriptObject jscallback = ExporterUtil.wrap(JsSimpleCallbackWrapper.wrap(callback));
 
-        final JavaScriptObject onFailure = createFailureCallback(callback);
-
-        stopJs(source, onSuccess, onFailure);
+        stopJs(source, jscallback);
     }
 
-    private native void stopJs(JavaScriptObject source, JavaScriptObject onSuccess, JavaScriptObject onFailure)/*-{ 
-                                                                                                               source.stop(onSuccess, onFailure);
+    private native void stopJs(JavaScriptObject source, JavaScriptObject callback)/*-{ 
+                                                                                                               source.stop(callback);
                                                                                                                }-*/;
 
     @Override
