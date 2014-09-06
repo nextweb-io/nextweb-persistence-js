@@ -2,7 +2,6 @@ package io.nextweb.persistence.js.internal;
 
 import io.nextweb.persistence.js.JsSerializer;
 import io.nextweb.promise.js.FnJs;
-import io.nextweb.promise.js.callbacks.EmptyCallback;
 import io.nextweb.promise.js.callbacks.JsSimpleCallbackWrapper;
 import io.nextweb.promise.js.exceptions.ExceptionUtils;
 
@@ -58,27 +57,15 @@ public class JsMapConnection implements AsyncMap<String, Object> {
         serializer.serialize(value, stringDestination);
         final String serializedValue = stringDestination.getDestination().getValue();
 
-        final JavaScriptObject onSuccess = FnJs.exportCallback(new EmptyCallback() {
+        final JavaScriptObject jscallback = JsSimpleCallbackWrapper.wrap(callback);
 
-            @Override
-            public void call() {
-                if (ENABLE_LOG) {
-                    GWT.log(this + ".put(" + key + ", " + value + ")->onSuccess");
-                }
-                callback.onSuccess();
-            }
-        });
-
-        final JavaScriptObject onFailure = createFailureCallback(callback);
-
-        putJs(source, key, serializedValue, onSuccess, onFailure);
+        putJs(source, key, serializedValue, jscallback);
 
     }
 
-    private native void putJs(JavaScriptObject source, String key, String value, JavaScriptObject onSuccess,
-            JavaScriptObject onFailure)/*-{
-                                       source.put(key, value, onSuccess, onFailure);
-                                       }-*/;
+    private native void putJs(JavaScriptObject source, String key, String value, JavaScriptObject callback)/*-{
+                                                                                                           source.put(key, value, callback);
+                                                                                                           }-*/;
 
     @Override
     public void putSync(final String key, final Object value) {
