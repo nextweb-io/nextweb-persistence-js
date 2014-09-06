@@ -16,7 +16,7 @@ import de.mxro.serialization.string.StringDestination;
 
 public class JsMapConnection implements AsyncMap<String, Object> {
 
-    private final static boolean ENABLE_LOG = true;
+    private final static boolean ENABLE_LOG = false;
 
     private final JavaScriptObject source;
     private final JsSerializer serializer;
