@@ -1,20 +1,16 @@
 package io.nextweb.persistence.js.internal;
 
 import io.nextweb.persistence.js.JsSerializer;
-import io.nextweb.promise.js.FnJs;
 import io.nextweb.promise.js.callbacks.JsSimpleCallbackWrapper;
 import io.nextweb.promise.js.callbacks.JsStringValueCallbackWrapper;
-import io.nextweb.promise.js.exceptions.ExceptionUtils;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 
-import de.mxro.async.callbacks.FailureCallback;
 import de.mxro.async.callbacks.SimpleCallback;
 import de.mxro.async.callbacks.ValueCallback;
 import de.mxro.async.map.AsyncMap;
 import de.mxro.async.map.operations.MapOperation;
-import de.mxro.fn.Closure;
 import de.mxro.serialization.Serialization;
 import de.mxro.serialization.string.StringDestination;
 
@@ -32,19 +28,6 @@ public class JsMapConnection implements AsyncMap<String, Object> {
         }
         this.source = source;
         this.serializer = serializer;
-    }
-
-    private JavaScriptObject createFailureCallback(final FailureCallback callback) {
-        return FnJs.exportCallback(new Closure<Object>() {
-
-            @Override
-            public void apply(final Object o) {
-                if (ENABLE_LOG) {
-                    GWT.log(this + "->Operation failed: " + o);
-                }
-                callback.onFailure(ExceptionUtils.convertJavaScriptException(o));
-            }
-        });
     }
 
     @Override
