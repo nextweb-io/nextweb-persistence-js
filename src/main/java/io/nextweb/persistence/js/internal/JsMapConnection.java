@@ -3,10 +3,13 @@ package io.nextweb.persistence.js.internal;
 import io.nextweb.persistence.js.JsSerializer;
 import io.nextweb.promise.js.FnJs;
 import io.nextweb.promise.js.callbacks.EmptyCallback;
+import io.nextweb.promise.js.callbacks.JsSimpleCallbackWrapper;
 import io.nextweb.promise.js.exceptions.ExceptionUtils;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import org.timepedia.exporter.client.ExporterUtil;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -258,24 +261,14 @@ public class JsMapConnection implements AsyncMap<String, Object> {
         if (ENABLE_LOG) {
             GWT.log(this + ".commit()");
         }
-        final JavaScriptObject onSuccess = FnJs.exportCallback(new EmptyCallback() {
 
-            @Override
-            public void call() {
-                if (ENABLE_LOG) {
-                    GWT.log(this + ".commit()->onSuccess");
-                }
-                callback.onSuccess();
-            }
-        });
+        final JavaScriptObject jscallback = ExporterUtil.wrap(JsSimpleCallbackWrapper.wrap(callback));
 
-        final JavaScriptObject onFailure = createFailureCallback(callback);
-
-        commitJs(source, onSuccess, onFailure);
+        commitJs(source, callback);
     }
 
-    private native void commitJs(JavaScriptObject source, JavaScriptObject onSuccess, JavaScriptObject onFailure)/*-{
-                                                                                                                 source.commit(onSuccess, onFailure);
+    private native void commitJs(JavaScriptObject source, JavaScriptObject callback)/*-{
+                                                                                                                 source.commit(callback);
                                                                                                                  }-*/;
 
     @Override
