@@ -5,9 +5,6 @@ import io.nextweb.promise.js.FnJs;
 import io.nextweb.promise.js.callbacks.EmptyCallback;
 import io.nextweb.promise.js.exceptions.ExceptionUtils;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 
@@ -227,7 +224,7 @@ public class JsMapConnection implements AsyncMap<String, Object> {
     @Override
     public void start(final SimpleCallback callback) {
         if (ENABLE_LOG) {
-            Logger.getLogger("JsMap").log(Level.SEVERE, "start...");
+            // Logger.getLogger("JsMap").log(Level.SEVERE, "start...");
             GWT.log(this + ".start()");
         }
         final JavaScriptObject onSuccess = FnJs.exportCallback(new EmptyCallback() {
@@ -235,7 +232,8 @@ public class JsMapConnection implements AsyncMap<String, Object> {
             @Override
             public void call() {
                 if (ENABLE_LOG) {
-                    Logger.getLogger("JsMap").log(Level.SEVERE, "start success!");
+                    // Logger.getLogger("JsMap").log(Level.SEVERE,
+                    // "start success!");
                     GWT.log(this + ".start()->onSuccess");
                 }
                 callback.onSuccess();
