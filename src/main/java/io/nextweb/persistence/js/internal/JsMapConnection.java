@@ -3,6 +3,7 @@ package io.nextweb.persistence.js.internal;
 import io.nextweb.persistence.js.JsSerializer;
 import io.nextweb.promise.js.FnJs;
 import io.nextweb.promise.js.callbacks.JsSimpleCallbackWrapper;
+import io.nextweb.promise.js.callbacks.JsStringValueCallbackWrapper;
 import io.nextweb.promise.js.exceptions.ExceptionUtils;
 
 import com.google.gwt.core.client.GWT;
@@ -91,27 +92,25 @@ public class JsMapConnection implements AsyncMap<String, Object> {
             GWT.log(this + ".get(" + key + ")");
         }
 
-        final JavaScriptObject onSuccess = FnJs.exportCallback(new Closure<Object>() {
+        final JavaScriptObject jscallback = JsStringValueCallbackWrapper.wrap(new ValueCallback<String>() {
 
             @Override
-            public void apply(final Object o) {
-                if (ENABLE_LOG) {
-                    GWT.log(this + ".get(" + key + ")->onSuccess=" + o);
-                }
-                callback.onSuccess(serializer.deserialize(Serialization.createStringSource((String) o)));
+            public void onFailure(final Throwable t) {
+                callback.onFailure(t);
             }
 
+            @Override
+            public void onSuccess(final String value) {
+                callback.onSuccess(serializer.deserialize(Serialization.createStringSource(value)));
+            }
         });
 
-        final JavaScriptObject onFailure = createFailureCallback(callback);
-
-        getJs(source, key, onSuccess, onFailure);
+        getJs(source, key, jscallback);
     }
 
-    private native void getJs(JavaScriptObject source, String key, JavaScriptObject onSuccess,
-            JavaScriptObject onFailure)/*-{ 
-                                       source.get(key, onSuccess, onFailure);
-                                       }-*/;
+    private native void getJs(JavaScriptObject source, String key, JavaScriptObject callback)/*-{ 
+                                                                                             source.get(key, callback);
+                                                                                             }-*/;
 
     @Override
     public Object getSync(final String key) {
