@@ -6,8 +6,6 @@ import io.nextweb.promise.js.callbacks.EmptyCallback;
 import io.nextweb.promise.js.callbacks.JsSimpleCallbackWrapper;
 import io.nextweb.promise.js.exceptions.ExceptionUtils;
 
-import org.timepedia.exporter.client.ExporterUtil;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 
@@ -161,29 +159,15 @@ public class JsMapConnection implements AsyncMap<String, Object> {
 
     @Override
     public final void remove(final String key, final SimpleCallback callback) {
-        if (ENABLE_LOG) {
-            GWT.log(this + ".remove(" + key + ")");
-        }
-        final JavaScriptObject onSuccess = FnJs.exportCallback(new EmptyCallback() {
 
-            @Override
-            public void call() {
-                if (ENABLE_LOG) {
-                    GWT.log(this + ".remove(" + key + ")->onSuccess");
-                }
-                callback.onSuccess();
-            }
-        });
+        final JavaScriptObject jscallback = JsSimpleCallbackWrapper.wrap(callback);
 
-        final JavaScriptObject onFailure = createFailureCallback(callback);
-
-        removeJs(source, key, onSuccess, onFailure);
+        removeJs(source, key, jscallback);
     }
 
-    private native void removeJs(JavaScriptObject source, String key, JavaScriptObject onSuccess,
-            JavaScriptObject onFailure)/*-{ 
-                                       source.remove(key, onSuccess, onFailure);
-                                       }-*/;
+    private native void removeJs(JavaScriptObject source, String key, JavaScriptObject callback)/*-{ 
+                                                                                                source.remove(key, callback);
+                                                                                                }-*/;
 
     @Override
     public void removeSync(final String key) {
@@ -202,7 +186,7 @@ public class JsMapConnection implements AsyncMap<String, Object> {
     @Override
     public final void stop(final SimpleCallback callback) {
 
-        final JavaScriptObject jscallback = ExporterUtil.wrap(JsSimpleCallbackWrapper.wrap(callback));
+        final JavaScriptObject jscallback = JsSimpleCallbackWrapper.wrap(callback);
 
         stopJs(source, jscallback);
     }
@@ -214,7 +198,7 @@ public class JsMapConnection implements AsyncMap<String, Object> {
     @Override
     public void start(final SimpleCallback callback) {
 
-        final JavaScriptObject jscallback = ExporterUtil.wrap(JsSimpleCallbackWrapper.wrap(callback));
+        final JavaScriptObject jscallback = JsSimpleCallbackWrapper.wrap(callback);
 
         startJs(source, jscallback);
     }
@@ -229,7 +213,7 @@ public class JsMapConnection implements AsyncMap<String, Object> {
             GWT.log(this + ".commit()");
         }
 
-        final JavaScriptObject jscallback = ExporterUtil.wrap(JsSimpleCallbackWrapper.wrap(callback));
+        final JavaScriptObject jscallback = JsSimpleCallbackWrapper.wrap(callback);
 
         commitJs(source, jscallback);
     }
