@@ -84,7 +84,6 @@ public class JsMapConnection implements AsyncMap<String, Object> {
 
             @Override
             public void onSuccess(final String value) {
-
                 if (value == null) {
                     callback.onSuccess(null);
                     return;
