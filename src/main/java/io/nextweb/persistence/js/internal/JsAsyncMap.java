@@ -14,14 +14,14 @@ import de.mxro.async.map.operations.MapOperation;
 import de.mxro.serialization.Serialization;
 import de.mxro.serialization.string.StringDestination;
 
-public class JsMapConnection implements AsyncMap<String, Object> {
+public class JsAsyncMap implements AsyncMap<String, Object> {
 
     private final static boolean ENABLE_LOG = false;
 
     private final JavaScriptObject source;
     private final JsSerializer serializer;
 
-    public JsMapConnection(final JavaScriptObject source, final JsSerializer serializer) {
+    public JsAsyncMap(final JavaScriptObject source, final JsSerializer serializer) {
         super();
         if (source == null) {
             throw new IllegalArgumentException("source should not be null.");
