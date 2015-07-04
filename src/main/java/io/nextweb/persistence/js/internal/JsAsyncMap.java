@@ -7,12 +7,12 @@ import io.nextweb.promise.js.callbacks.JsStringValueCallbackWrapper;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 
-import de.mxro.async.callbacks.SimpleCallback;
-import de.mxro.async.callbacks.ValueCallback;
 import de.mxro.async.map.AsyncMap;
 import de.mxro.async.map.operations.MapOperation;
 import de.mxro.serialization.Serialization;
 import de.mxro.serialization.string.StringDestination;
+import delight.async.callbacks.SimpleCallback;
+import delight.async.callbacks.ValueCallback;
 
 public class JsAsyncMap implements AsyncMap<String, Object> {
 
