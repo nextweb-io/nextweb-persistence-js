@@ -1,12 +1,11 @@
 package io.nextweb.persistence.js;
 
-import io.nextweb.persistence.js.internal.JsAsyncMap;
-import io.nextweb.persistence.js.internal.JsPersistenceProvider;
-import io.nextweb.persistence.js.internal.RpcSerializer;
-
 import com.google.gwt.core.client.JavaScriptObject;
 
 import de.mxro.async.map.AsyncMap;
+import io.nextweb.persistence.js.internal.JsAsyncMap;
+import io.nextweb.persistence.js.internal.JsPersistenceProvider;
+import io.nextweb.persistence.js.internal.RpcSerializer;
 
 public class NextwebPersistenceJs {
 

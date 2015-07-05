@@ -1,9 +1,5 @@
 package io.nextweb.persistence.js.internal;
 
-import io.nextweb.persistence.js.JsSerializer;
-import io.nextweb.promise.js.callbacks.JsSimpleCallbackWrapper;
-import io.nextweb.promise.js.callbacks.JsStringValueCallbackWrapper;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 
@@ -13,6 +9,9 @@ import de.mxro.serialization.Serialization;
 import de.mxro.serialization.string.StringDestination;
 import delight.async.callbacks.SimpleCallback;
 import delight.async.callbacks.ValueCallback;
+import io.nextweb.persistence.js.JsSerializer;
+import io.nextweb.promise.js.callbacks.JsSimpleCallbackWrapper;
+import io.nextweb.promise.js.callbacks.JsStringValueCallbackWrapper;
 
 public class JsAsyncMap implements AsyncMap<String, Object> {
 
