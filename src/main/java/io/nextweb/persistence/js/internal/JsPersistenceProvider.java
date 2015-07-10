@@ -2,7 +2,7 @@ package io.nextweb.persistence.js.internal;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
-import de.mxro.async.map.AsyncMap;
+import de.mxro.async.map.Store;
 import io.nextweb.persistence.js.JsSerializer;
 import io.nextweb.persistence.js.NextwebPersistenceJs;
 import io.nextweb.persistence.js.PersistenceProvider;
@@ -13,7 +13,7 @@ public class JsPersistenceProvider implements PersistenceProvider {
 	private final JsSerializer serializer;
 
 	@Override
-	public AsyncMap<String, Object> createMap(String id) {
+	public Store<String, Object> createMap(String id) {
 
 		return NextwebPersistenceJs.wrapMapConnection(serializer,
 				createMapJs(id));

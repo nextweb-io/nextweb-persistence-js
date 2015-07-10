@@ -6,7 +6,7 @@ import delight.async.callbacks.ValueCallback;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 
-import de.mxro.async.map.AsyncMap;
+import de.mxro.async.map.Store;
 import de.mxro.async.map.operations.MapOperation;
 import de.mxro.serialization.Serialization;
 import de.mxro.serialization.string.StringDestination;
@@ -14,7 +14,7 @@ import io.nextweb.persistence.js.JsSerializer;
 import io.nextweb.promise.js.callbacks.JsSimpleCallbackWrapper;
 import io.nextweb.promise.js.callbacks.JsStringValueCallbackWrapper;
 
-public class JsAsyncMap implements AsyncMap<String, Object> {
+public class JsAsyncMap implements Store<String, Object> {
 
     private final static boolean ENABLE_LOG = false;
 
