@@ -5,11 +5,16 @@ import delight.async.callbacks.ValueCallback;
 import delight.functional.Closure;
 import delight.keyvalue.StoreEntry;
 import delight.keyvalue.StoreImplementation;
+import delight.keyvalue.internal.v01.StoreEntryData;
 import delight.keyvalue.operations.StoreOperation;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.json.client.JSONArray;
+import com.google.gwt.json.client.JSONString;
 import com.google.gwt.json.client.JSONValue;
 
 import de.mxro.serialization.Serialization;
@@ -224,11 +229,32 @@ public class JsAsyncMap implements StoreImplementation<String, Object> {
             final SimpleCallback onCompleted) {
         final JSONArray jsonArray = new JSONArray(getAllKeysJs(source));
 
+        final List<String> keys = new ArrayList<String>(jsonArray.size());
+
         for (int i = 0; i < jsonArray.size(); i++) {
             final JSONValue val = jsonArray.get(i);
             final JSONString str = val.isString();
-
+            keys.add(str.stringValue());
         }
+
+        for (final String key : keys) {
+            if (key.startsWith(keyStartsWith)) {
+                get(key, new ValueCallback<Object>() {
+
+                    @Override
+                    public void onFailure(final Throwable t) {
+                        onCompleted.onFailure(t);
+                    }
+
+                    @Override
+                    public void onSuccess(final Object value) {
+                        onEntry.apply(new StoreEntryData<String, Object>(key, value));
+                    }
+                });
+            }
+        }
+
+        onCompleted.onSuccess();
     }
 
 }
