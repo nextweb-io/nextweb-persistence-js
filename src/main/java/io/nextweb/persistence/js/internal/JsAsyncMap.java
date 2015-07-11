@@ -226,7 +226,8 @@ public class JsAsyncMap implements StoreImplementation<String, Object> {
 
         for (int i = 0; i < jsonArray.size(); i++) {
             final JSONValue val = jsonArray.get(i);
-            assert val.isString();
+            final JSONString str = val.isString();
+
         }
     }
 
