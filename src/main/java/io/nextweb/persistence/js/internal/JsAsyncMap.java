@@ -2,6 +2,8 @@ package io.nextweb.persistence.js.internal;
 
 import delight.async.callbacks.SimpleCallback;
 import delight.async.callbacks.ValueCallback;
+import delight.functional.Closure;
+import delight.keyvalue.StoreEntry;
 import delight.keyvalue.StoreImplementation;
 import delight.keyvalue.operations.StoreOperation;
 
@@ -204,6 +206,21 @@ public class JsAsyncMap implements StoreImplementation<String, Object> {
     @Override
     public void clearCache() {
         // DO NOTHING
+    }
+
+    private native JavaScriptObject getAllKeysJs(JavaScriptObject source, JavaScriptObject callback)/*-{
+                                                                                                    return source.getAllKeys();
+                                                                                                    }-*/;
+
+    @Override
+    public void removeAll(final String keyStartsWith, final SimpleCallback callback) {
+
+    }
+
+    @Override
+    public void getAll(final String keyStartsWith, final Closure<StoreEntry<String, Object>> onEntry,
+            final SimpleCallback onCompleted) {
+
     }
 
 }
