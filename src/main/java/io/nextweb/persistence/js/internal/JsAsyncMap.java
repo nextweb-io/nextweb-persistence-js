@@ -2,7 +2,7 @@ package io.nextweb.persistence.js.internal;
 
 import delight.async.callbacks.SimpleCallback;
 import delight.async.callbacks.ValueCallback;
-import delight.keyvalue.Store;
+import delight.keyvalue.StoreImplementation;
 import delight.keyvalue.operations.StoreOperation;
 
 import com.google.gwt.core.client.GWT;
@@ -14,7 +14,7 @@ import io.nextweb.persistence.js.JsSerializer;
 import io.nextweb.promise.js.callbacks.JsSimpleCallbackWrapper;
 import io.nextweb.promise.js.callbacks.JsStringValueCallbackWrapper;
 
-public class JsAsyncMap implements Store<String, Object> {
+public class JsAsyncMap implements StoreImplementation<String, Object> {
 
     private final static boolean ENABLE_LOG = false;
 
@@ -64,9 +64,10 @@ public class JsAsyncMap implements Store<String, Object> {
         putSyncJs(source, key, serializedValue);
     }
 
-    private native void putSyncJs(JavaScriptObject source, String key, String value)/*-{
-                                                                                    														source.putSync(key, value);
-                                                                                    														}-*/;
+    private native void putSyncJs(JavaScriptObject source, String key,
+            String value)/*-{
+                         														source.putSync(key, value);
+                         														}-*/;
 
     @Override
     public final void get(final String key, final ValueCallback<Object> callback) {
@@ -126,7 +127,7 @@ public class JsAsyncMap implements Store<String, Object> {
 
     private native String getSyncJs(JavaScriptObject source, String key)/*-{ 
                                                                         var value = source.getSync(key);
-
+                                                                        
                                                                         return value;
                                                                         }-*/;
 
@@ -153,7 +154,7 @@ public class JsAsyncMap implements Store<String, Object> {
 
     private native void removeSyncJs(JavaScriptObject source, String key)/*-{ 
                                                                          source.removeSync(key);
-
+                                                                         
                                                                          }-*/;
 
     @Override
@@ -196,10 +197,13 @@ public class JsAsyncMap implements Store<String, Object> {
                                                                                                                  }-*/;
 
     @Override
-    public void performOperation(final StoreOperation operation) {
-        if (ENABLE_LOG) {
-            GWT.log(this + ".performOperation() XXXX> Ignored");
-        }
+    public void performOperation(final StoreOperation<String, Object> operation, final ValueCallback<Object> callback) {
+        operation.applyOn(this, callback);
+    }
+
+    @Override
+    public void clearCache() {
+        // DO NOTHING
     }
 
 }
