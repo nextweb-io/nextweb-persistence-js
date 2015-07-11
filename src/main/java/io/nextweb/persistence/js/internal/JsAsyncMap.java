@@ -10,6 +10,7 @@ import delight.keyvalue.operations.StoreOperation;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.json.client.JSONArray;
+import com.google.gwt.json.client.JSONValue;
 
 import de.mxro.serialization.Serialization;
 import de.mxro.serialization.string.StringDestination;
@@ -215,18 +216,18 @@ public class JsAsyncMap implements StoreImplementation<String, Object> {
 
     @Override
     public void removeAll(final String keyStartsWith, final SimpleCallback callback) {
-        final JSONArray jsonArray = new JSONArray(getAllKeysJs(source));
-
-        for (final int i = 0; i < jsonArray.size(); i++) {
-
-        }
 
     }
 
     @Override
     public void getAll(final String keyStartsWith, final Closure<StoreEntry<String, Object>> onEntry,
             final SimpleCallback onCompleted) {
+        final JSONArray jsonArray = new JSONArray(getAllKeysJs(source));
 
+        for (int i = 0; i < jsonArray.size(); i++) {
+            final JSONValue val = jsonArray.get(i);
+            assert val.isString();
+        }
     }
 
 }
