@@ -9,6 +9,7 @@ import delight.keyvalue.operations.StoreOperation;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.json.client.JSONArray;
 
 import de.mxro.serialization.Serialization;
 import de.mxro.serialization.string.StringDestination;
@@ -208,12 +209,17 @@ public class JsAsyncMap implements StoreImplementation<String, Object> {
         // DO NOTHING
     }
 
-    private native JavaScriptObject getAllKeysJs(JavaScriptObject source, JavaScriptObject callback)/*-{
+    private native JavaScriptObject getAllKeysJs(JavaScriptObject source)/*-{
                                                                                                     return source.getAllKeys();
                                                                                                     }-*/;
 
     @Override
     public void removeAll(final String keyStartsWith, final SimpleCallback callback) {
+        final JSONArray jsonArray = new JSONArray(getAllKeysJs(source));
+
+        for (final int i = 0; i < jsonArray.size(); i++) {
+
+        }
 
     }
 
