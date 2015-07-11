@@ -7,7 +7,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 
 import de.mxro.async.map.Store;
-import de.mxro.async.map.operations.MapOperation;
+import de.mxro.async.map.operations.StoreOperation;
 import de.mxro.serialization.Serialization;
 import de.mxro.serialization.string.StringDestination;
 import io.nextweb.persistence.js.JsSerializer;
@@ -196,7 +196,7 @@ public class JsAsyncMap implements Store<String, Object> {
                                                                                                                  }-*/;
 
     @Override
-    public void performOperation(final MapOperation operation) {
+    public void performOperation(final StoreOperation operation) {
         if (ENABLE_LOG) {
             GWT.log(this + ".performOperation() XXXX> Ignored");
         }
