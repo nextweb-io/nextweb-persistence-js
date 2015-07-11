@@ -237,6 +237,7 @@ public class JsAsyncMap implements StoreImplementation<String, Object> {
             keys.add(str.stringValue());
         }
 
+        // runs in one thread anyway therefore no special async logic
         for (final String key : keys) {
             if (key.startsWith(keyStartsWith)) {
                 get(key, new ValueCallback<Object>() {
