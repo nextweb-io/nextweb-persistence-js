@@ -221,7 +221,13 @@ public class JsAsyncMap implements StoreImplementation<String, Object> {
 
     @Override
     public void removeAll(final String keyStartsWith, final SimpleCallback callback) {
+        getAll(keyStartsWith, new Closure<StoreEntry<String, Object>>() {
 
+            @Override
+            public void apply(final StoreEntry<String, Object> o) {
+                removeSync(o.key());
+            }
+        }, callback);
     }
 
     @Override
@@ -240,18 +246,9 @@ public class JsAsyncMap implements StoreImplementation<String, Object> {
         // runs in one thread anyway therefore no special async logic
         for (final String key : keys) {
             if (key.startsWith(keyStartsWith)) {
-                get(key, new ValueCallback<Object>() {
 
-                    @Override
-                    public void onFailure(final Throwable t) {
-                        onCompleted.onFailure(t);
-                    }
+                onEntry.apply(new StoreEntryData<String, Object>(key, getSync(key)));
 
-                    @Override
-                    public void onSuccess(final Object value) {
-                        onEntry.apply(new StoreEntryData<String, Object>(key, value));
-                    }
-                });
             }
         }
 
