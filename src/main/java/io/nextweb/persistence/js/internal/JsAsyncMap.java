@@ -2,12 +2,12 @@ package io.nextweb.persistence.js.internal;
 
 import delight.async.callbacks.SimpleCallback;
 import delight.async.callbacks.ValueCallback;
+import delight.keyvalue.Store;
+import delight.keyvalue.operations.StoreOperation;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 
-import de.mxro.async.map.Store;
-import de.mxro.async.map.operations.StoreOperation;
 import de.mxro.serialization.Serialization;
 import de.mxro.serialization.string.StringDestination;
 import io.nextweb.persistence.js.JsSerializer;

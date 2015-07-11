@@ -1,6 +1,6 @@
 package io.nextweb.persistence.js;
 
-import de.mxro.async.map.Store;
+import delight.keyvalue.Store;
 
 public interface PersistenceProvider {
 

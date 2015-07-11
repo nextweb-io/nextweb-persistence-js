@@ -1,8 +1,9 @@
 package io.nextweb.persistence.js.internal;
 
+import delight.keyvalue.Store;
+
 import com.google.gwt.core.client.JavaScriptObject;
 
-import de.mxro.async.map.Store;
 import io.nextweb.persistence.js.JsSerializer;
 import io.nextweb.persistence.js.NextwebPersistenceJs;
 import io.nextweb.persistence.js.PersistenceProvider;
