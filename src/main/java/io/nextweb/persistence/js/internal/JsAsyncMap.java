@@ -1,5 +1,6 @@
 package io.nextweb.persistence.js.internal;
 
+import delight.async.Value;
 import delight.async.callbacks.SimpleCallback;
 import delight.async.callbacks.ValueCallback;
 import delight.functional.Closure;
@@ -253,6 +254,29 @@ public class JsAsyncMap implements StoreImplementation<String, Object> {
         }
 
         onCompleted.onSuccess();
+    }
+
+    @Override
+    public void count(final String keyStartsWith, final ValueCallback<Integer> callback) {
+        final Value<Integer> count = new Value<Integer>(0);
+        getAll(keyStartsWith, new Closure<StoreEntry<String, Object>>() {
+
+            @Override
+            public void apply(final StoreEntry<String, Object> o) {
+                count.set(count.get() + 1);
+            }
+        }, new SimpleCallback() {
+
+            @Override
+            public void onFailure(final Throwable t) {
+                callback.onFailure(t);
+            }
+
+            @Override
+            public void onSuccess() {
+                callback.onSuccess(count.get());
+            }
+        });
     }
 
 }
