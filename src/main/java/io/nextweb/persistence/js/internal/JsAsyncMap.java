@@ -279,4 +279,16 @@ public class JsAsyncMap implements StoreImplementation<String, Object> {
         });
     }
 
+    @Override
+    public void get(final List<String> keys, final ValueCallback<List<Object>> callback) {
+        final List<Object> results = new ArrayList<Object>(keys.size());
+
+        for (final String key : keys) {
+            results.add(getSync(key));
+        }
+
+        callback.onSuccess(results);
+
+    }
+
 }
