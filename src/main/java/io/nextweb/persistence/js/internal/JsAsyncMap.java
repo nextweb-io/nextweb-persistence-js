@@ -232,8 +232,8 @@ public class JsAsyncMap implements StoreImplementation<String, Object> {
     }
 
     @Override
-    public void getAll(final String keyStartsWith, final Closure<StoreEntry<String, Object>> onEntry,
-            final SimpleCallback onCompleted) {
+    public void getAll(final String keyStartsWith, final int fromIdx, final int toIdx,
+            final ValueCallback<List<StoreEntry<String, Object>>> callback) {
         final JSONArray jsonArray = new JSONArray(getAllKeysJs(source));
 
         final List<String> keys = new ArrayList<String>(jsonArray.size());
@@ -244,16 +244,25 @@ public class JsAsyncMap implements StoreImplementation<String, Object> {
             keys.add(str.stringValue());
         }
 
-        // runs in one thread anyway therefore no special async logic
-        for (final String key : keys) {
+        int found = 0;
+        final int toFind = toIdx - fromIdx + 1;
+        int idx = fromIdx;
+        final List<StoreEntry<String, Object>> res = new ArrayList<StoreEntry<String, Object>>(toFind);
+
+        while (idx <= keys.size() && (found <= toFind || toIdx == -1)) {
+
+            final String key = keys.get(idx);
+
             if (key.startsWith(keyStartsWith)) {
 
-                onEntry.apply(new StoreEntryData<String, Object>(key, getSync(key)));
-
+                res.add(new StoreEntryData<String, Object>(key, getSync(key)));
+                found++;
             }
-        }
 
-        onCompleted.onSuccess();
+            idx++;
+
+        }
+        callback.onSuccess(res);
     }
 
     @Override
