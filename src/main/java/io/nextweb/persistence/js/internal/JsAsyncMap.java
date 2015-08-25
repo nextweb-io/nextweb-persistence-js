@@ -1,6 +1,6 @@
 package io.nextweb.persistence.js.internal;
 
-import delight.async.Value;
+import delight.async.AsyncCommon;
 import delight.async.callbacks.SimpleCallback;
 import delight.async.callbacks.ValueCallback;
 import delight.functional.Closure;
@@ -222,7 +222,7 @@ public class JsAsyncMap implements StoreImplementation<String, Object> {
 
     @Override
     public void removeAll(final String keyStartsWith, final SimpleCallback callback) {
-        getAll(keyStartsWith, new Closure<StoreEntry<String, Object>>() {
+        getAll(keyStartsWith, 0, -1, new Closure<StoreEntry<String, Object>>() {
 
             @Override
             public void apply(final StoreEntry<String, Object> o) {
@@ -267,25 +267,14 @@ public class JsAsyncMap implements StoreImplementation<String, Object> {
 
     @Override
     public void count(final String keyStartsWith, final ValueCallback<Integer> callback) {
-        final Value<Integer> count = new Value<Integer>(0);
-        getAll(keyStartsWith, new Closure<StoreEntry<String, Object>>() {
+        getAll(keyStartsWith, 0, -1, AsyncCommon.embed(callback, new Closure<List<StoreEntry<String, Object>>>() {
 
             @Override
-            public void apply(final StoreEntry<String, Object> o) {
-                count.set(count.get() + 1);
-            }
-        }, new SimpleCallback() {
-
-            @Override
-            public void onFailure(final Throwable t) {
-                callback.onFailure(t);
+            public void apply(final List<StoreEntry<String, Object>> o) {
+                callback.onSuccess(o.size());
             }
 
-            @Override
-            public void onSuccess() {
-                callback.onSuccess(count.get());
-            }
-        });
+        }));
     }
 
     @Override
