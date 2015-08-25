@@ -222,13 +222,18 @@ public class JsAsyncMap implements StoreImplementation<String, Object> {
 
     @Override
     public void removeAll(final String keyStartsWith, final SimpleCallback callback) {
-        getAll(keyStartsWith, 0, -1, new Closure<StoreEntry<String, Object>>() {
+        getAll(keyStartsWith, 0, -1, AsyncCommon.embed(AsyncCommon.asValueCallback(callback),
+                new Closure<List<StoreEntry<String, Object>>>() {
 
-            @Override
-            public void apply(final StoreEntry<String, Object> o) {
-                removeSync(o.key());
-            }
-        }, callback);
+                    @Override
+                    public void apply(final List<StoreEntry<String, Object>> matches) {
+                        for (final StoreEntry<String, Object> m : matches) {
+                            removeSync(m.key());
+                        }
+                        callback.onSuccess();
+                    }
+                }));
+
     }
 
     @Override
