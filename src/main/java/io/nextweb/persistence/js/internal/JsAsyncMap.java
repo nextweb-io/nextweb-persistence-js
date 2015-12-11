@@ -270,6 +270,7 @@ public class JsAsyncMap implements StoreImplementation<String, Object> {
                 idx++;
 
             }
+            Console.log("Get all successfull " + res);
             callback.onSuccess(res);
         } catch (final Throwable t) {
             callback.onFailure(t);
