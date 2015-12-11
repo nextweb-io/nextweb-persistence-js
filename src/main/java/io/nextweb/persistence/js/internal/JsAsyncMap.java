@@ -268,6 +268,10 @@ public class JsAsyncMap implements StoreImplementation<String, Object> {
             int idx = fromIdx;
             final List<StoreEntry<String, Object>> res = new ArrayList<StoreEntry<String, Object>>(toFind);
 
+            if (ENABLE_LOG) {
+                Console.log(this + ": getAll got JSONArray " + jsonArray.toString());
+            }
+
             while (idx < keys.size() && (found <= toFind || toIdx == -1)) {
 
                 final String key = keys.get(idx);
