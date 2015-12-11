@@ -4,6 +4,7 @@ import delight.async.AsyncCommon;
 import delight.async.callbacks.SimpleCallback;
 import delight.async.callbacks.ValueCallback;
 import delight.functional.Closure;
+import delight.gwt.console.Console;
 import delight.keyvalue.StoreEntry;
 import delight.keyvalue.StoreImplementation;
 import delight.keyvalue.internal.v01.StoreEntryData;
@@ -239,6 +240,7 @@ public class JsAsyncMap implements StoreImplementation<String, Object> {
     @Override
     public void getAll(final String keyStartsWith, final int fromIdx, final int toIdx,
             final ValueCallback<List<StoreEntry<String, Object>>> callback) {
+        Console.log("Get all " + keyStartsWith);
         final JSONArray jsonArray = new JSONArray(getAllKeysJs(source));
 
         final List<String> keys = new ArrayList<String>(jsonArray.size());
