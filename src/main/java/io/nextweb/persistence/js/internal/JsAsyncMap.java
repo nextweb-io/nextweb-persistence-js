@@ -286,6 +286,10 @@ public class JsAsyncMap implements StoreImplementation<String, Object> {
 
             }
 
+            if (ENABLE_LOG) {
+                Console.log(this + ": getAll got entries " + res);
+            }
+
             callback.onSuccess(res);
         } catch (final Throwable t) {
             callback.onFailure(t);
