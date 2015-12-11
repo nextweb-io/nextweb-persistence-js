@@ -257,8 +257,10 @@ public class JsAsyncMap implements StoreImplementation<String, Object> {
             int idx = fromIdx;
             final List<StoreEntry<String, Object>> res = new ArrayList<StoreEntry<String, Object>>(toFind);
 
-            while (idx < keys.size() && (found <= toFind || toIdx == -1)) {
+            Console.log("items " + keys.size());
 
+            while (idx < keys.size() && (found <= toFind || toIdx == -1)) {
+                Console.log("idx " + idx);
                 final String key = keys.get(idx);
 
                 if (key.startsWith(keyStartsWith)) {
