@@ -4,7 +4,6 @@ import delight.async.AsyncCommon;
 import delight.async.callbacks.SimpleCallback;
 import delight.async.callbacks.ValueCallback;
 import delight.functional.Closure;
-import delight.gwt.console.Console;
 import delight.keyvalue.StoreEntry;
 import delight.keyvalue.StoreImplementation;
 import delight.keyvalue.internal.v01.StoreEntryData;
@@ -240,13 +239,12 @@ public class JsAsyncMap implements StoreImplementation<String, Object> {
     @Override
     public void getAll(final String keyStartsWith, final int fromIdx, final int toIdx,
             final ValueCallback<List<StoreEntry<String, Object>>> callback) {
-        Console.log("Get all " + keyStartsWith);
+
         try {
             final JSONArray jsonArray = new JSONArray(getAllKeysJs(source));
 
             final List<String> keys = new ArrayList<String>(jsonArray.size());
 
-            Console.log("Geta ll");
             for (int i = 0; i < jsonArray.size() - 1; i++) {
                 final JSONValue val = jsonArray.get(i);
                 final JSONString str = val.isString();
@@ -258,10 +256,8 @@ public class JsAsyncMap implements StoreImplementation<String, Object> {
             int idx = fromIdx;
             final List<StoreEntry<String, Object>> res = new ArrayList<StoreEntry<String, Object>>(toFind);
 
-            Console.log("items " + keys.size());
-
             while (idx < keys.size() && (found <= toFind || toIdx == -1)) {
-                Console.log("idx " + idx);
+
                 final String key = keys.get(idx);
 
                 if (key.startsWith(keyStartsWith)) {
@@ -273,7 +269,7 @@ public class JsAsyncMap implements StoreImplementation<String, Object> {
                 idx++;
 
             }
-            Console.log("Get all successfull " + res);
+
             callback.onSuccess(res);
         } catch (final Throwable t) {
             callback.onFailure(t);
