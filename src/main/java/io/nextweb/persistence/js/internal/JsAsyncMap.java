@@ -4,6 +4,7 @@ import delight.async.AsyncCommon;
 import delight.async.callbacks.SimpleCallback;
 import delight.async.callbacks.ValueCallback;
 import delight.functional.Closure;
+import delight.gwt.console.Console;
 import delight.keyvalue.StoreEntry;
 import delight.keyvalue.StoreImplementation;
 import delight.keyvalue.internal.v01.StoreEntryData;
@@ -12,7 +13,6 @@ import delight.keyvalue.operations.StoreOperation;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONString;
@@ -26,7 +26,7 @@ import io.nextweb.promise.js.callbacks.JsStringValueCallbackWrapper;
 
 public class JsAsyncMap implements StoreImplementation<String, Object> {
 
-    private final static boolean ENABLE_LOG = false;
+    private final static boolean ENABLE_LOG = true;
 
     private final JavaScriptObject source;
     private final JsSerializer serializer;
@@ -44,7 +44,7 @@ public class JsAsyncMap implements StoreImplementation<String, Object> {
     public void put(final String key, final Object value, final SimpleCallback callback) {
 
         if (ENABLE_LOG) {
-            GWT.log(this + ".put(" + key + ", " + value + ":" + value.getClass() + ")");
+            Console.log(this + ".put(" + key + ", " + value + ":" + value.getClass() + ")");
         }
 
         final StringDestination stringDestination = Serialization.createStringDestination();
@@ -64,7 +64,7 @@ public class JsAsyncMap implements StoreImplementation<String, Object> {
     @Override
     public void putSync(final String key, final Object value) {
         if (ENABLE_LOG) {
-            GWT.log(this + ".putSync(" + key + ", " + value + ":" + value.getClass() + ")");
+            Console.log(this + ".putSync(" + key + ", " + value + ":" + value.getClass() + ")");
         }
 
         final StringDestination stringDestination = Serialization.createStringDestination();
@@ -83,7 +83,7 @@ public class JsAsyncMap implements StoreImplementation<String, Object> {
     public final void get(final String key, final ValueCallback<Object> callback) {
 
         if (ENABLE_LOG) {
-            GWT.log(this + ".get(" + key + ")");
+            Console.log(this + ".get(" + key + ")");
         }
 
         final JavaScriptObject jscallback = JsStringValueCallbackWrapper.wrap(new ValueCallback<String>() {
@@ -113,23 +113,23 @@ public class JsAsyncMap implements StoreImplementation<String, Object> {
     @Override
     public Object getSync(final String key) {
         if (ENABLE_LOG) {
-            GWT.log(this + ".getSync(" + key + ")");
+            Console.log(this + ".getSync(" + key + ")");
         }
         final String value = getSyncJs(source, key);
         if (value == null) {
             if (ENABLE_LOG) {
-                GWT.log(this + ".getSync(" + key + ")->" + null);
+                Console.log(this + ".getSync(" + key + ")->" + null);
             }
             return null;
         }
 
         if (ENABLE_LOG) {
-            GWT.log(this + ".getSync(" + key + ")->deserializing" + value);
+            Console.log(this + ".getSync(" + key + ")->deserializing" + value);
         }
 
         final Object res = serializer.deserialize(Serialization.createStringSource(value));
         if (ENABLE_LOG) {
-            GWT.log(this + ".getSync(" + key + ")->" + res);
+            Console.log(this + ".getSync(" + key + ")->" + res);
         }
 
         return res;
@@ -156,7 +156,7 @@ public class JsAsyncMap implements StoreImplementation<String, Object> {
     @Override
     public void removeSync(final String key) {
         if (ENABLE_LOG) {
-            GWT.log(this + ".removeSync(" + key + ")");
+            Console.log(this + ".removeSync(" + key + ")");
         }
         removeSyncJs(source, key);
 
@@ -194,7 +194,7 @@ public class JsAsyncMap implements StoreImplementation<String, Object> {
     @Override
     public final void commit(final SimpleCallback callback) {
         if (ENABLE_LOG) {
-            GWT.log(this + ".commit()");
+            Console.log(this + ".commit()");
         }
 
         final JavaScriptObject jscallback = JsSimpleCallbackWrapper.wrap(callback);
@@ -208,6 +208,9 @@ public class JsAsyncMap implements StoreImplementation<String, Object> {
 
     @Override
     public void performOperation(final StoreOperation<String, Object> operation, final ValueCallback<Object> callback) {
+        if (ENABLE_LOG) {
+            Console.log(this + ": perform " + operation);
+        }
         operation.applyOn(this, callback);
     }
 
