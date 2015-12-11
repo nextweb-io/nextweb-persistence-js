@@ -95,6 +95,9 @@ public class JsAsyncMap implements StoreImplementation<String, Object> {
 
             @Override
             public void onSuccess(final String value) {
+                if (ENABLE_LOG) {
+                    Console.log(this + ".got(" + value + ")");
+                }
                 if (value == null) {
                     callback.onSuccess(null);
                     return;
