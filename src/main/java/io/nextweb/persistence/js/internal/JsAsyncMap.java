@@ -239,6 +239,9 @@ public class JsAsyncMap implements StoreImplementation<String, Object> {
                         for (final StoreEntry<String, Object> m : matches) {
                             removeSync(m.key());
                         }
+                        if (ENABLE_LOG) {
+                            Console.log(this + ": removed " + matches);
+                        }
                         callback.onSuccess();
                     }
                 }));
