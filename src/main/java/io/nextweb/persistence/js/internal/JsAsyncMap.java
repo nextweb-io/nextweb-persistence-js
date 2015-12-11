@@ -241,35 +241,39 @@ public class JsAsyncMap implements StoreImplementation<String, Object> {
     public void getAll(final String keyStartsWith, final int fromIdx, final int toIdx,
             final ValueCallback<List<StoreEntry<String, Object>>> callback) {
         Console.log("Get all " + keyStartsWith);
-        final JSONArray jsonArray = new JSONArray(getAllKeysJs(source));
+        try {
+            final JSONArray jsonArray = new JSONArray(getAllKeysJs(source));
 
-        final List<String> keys = new ArrayList<String>(jsonArray.size());
+            final List<String> keys = new ArrayList<String>(jsonArray.size());
 
-        for (int i = 0; i < jsonArray.size(); i++) {
-            final JSONValue val = jsonArray.get(i);
-            final JSONString str = val.isString();
-            keys.add(str.stringValue());
-        }
-
-        int found = 0;
-        final int toFind = toIdx - fromIdx + 1;
-        int idx = fromIdx;
-        final List<StoreEntry<String, Object>> res = new ArrayList<StoreEntry<String, Object>>(toFind);
-
-        while (idx <= keys.size() && (found <= toFind || toIdx == -1)) {
-
-            final String key = keys.get(idx);
-
-            if (key.startsWith(keyStartsWith)) {
-
-                res.add(new StoreEntryData<String, Object>(key, getSync(key)));
-                found++;
+            for (int i = 0; i < jsonArray.size(); i++) {
+                final JSONValue val = jsonArray.get(i);
+                final JSONString str = val.isString();
+                keys.add(str.stringValue());
             }
 
-            idx++;
+            int found = 0;
+            final int toFind = toIdx - fromIdx + 1;
+            int idx = fromIdx;
+            final List<StoreEntry<String, Object>> res = new ArrayList<StoreEntry<String, Object>>(toFind);
 
+            while (idx <= keys.size() && (found <= toFind || toIdx == -1)) {
+
+                final String key = keys.get(idx);
+
+                if (key.startsWith(keyStartsWith)) {
+
+                    res.add(new StoreEntryData<String, Object>(key, getSync(key)));
+                    found++;
+                }
+
+                idx++;
+
+            }
+            callback.onSuccess(res);
+        } catch (final Throwable t) {
+            callback.onFailure(t);
         }
-        callback.onSuccess(res);
     }
 
     @Override
