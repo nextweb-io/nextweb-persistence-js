@@ -31,15 +31,6 @@ public class JsAsyncMap implements StoreImplementation<String, Object> {
     private final JavaScriptObject source;
     private final JsSerializer serializer;
 
-    public JsAsyncMap(final JavaScriptObject source, final JsSerializer serializer) {
-        super();
-        if (source == null) {
-            throw new IllegalArgumentException("source should not be null.");
-        }
-        this.source = source;
-        this.serializer = serializer;
-    }
-
     @Override
     public void put(final String key, final Object value, final SimpleCallback callback) {
 
@@ -322,6 +313,15 @@ public class JsAsyncMap implements StoreImplementation<String, Object> {
 
         callback.onSuccess(results);
 
+    }
+
+    public JsAsyncMap(final JavaScriptObject source, final JsSerializer serializer) {
+        super();
+        if (source == null) {
+            throw new IllegalArgumentException("source should not be null.");
+        }
+        this.source = source;
+        this.serializer = serializer;
     }
 
 }
