@@ -16,7 +16,7 @@ public class JsPersistenceProvider implements PersistenceProvider {
 	@Override
 	public Store<String, Object> createMap(String id) {
 
-		return NextwebPersistenceJs.wrapMapConnection(serializer,
+		return NextwebPersistenceJs.createJsStore(serializer,
 				createMapJs(id));
 	}
 

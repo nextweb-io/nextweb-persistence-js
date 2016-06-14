@@ -17,7 +17,7 @@ public class NextwebPersistenceJs {
 
 	}
 
-	public static Store<String, Object> wrapMapConnection(JsSerializer serializer,
+	public static Store<String, Object> createJsStore(JsSerializer serializer,
 			JavaScriptObject mapConnection) {
 		return new JsAsyncMap(mapConnection, serializer);
 	}
