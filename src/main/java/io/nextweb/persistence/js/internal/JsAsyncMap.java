@@ -251,7 +251,9 @@ public class JsAsyncMap implements StoreImplementation<String, Object> {
     @Override
     public void getAll(final String keyStartsWith, final int fromIdx, final int toIdx,
             final ValueCallback<List<StoreEntry<String, Object>>> callback) {
-
+        if (ENABLE_LOG) {
+            Console.log(this + ": getAll " + keyStartsWith);
+        }
         try {
             final JSONArray jsonArray = new JSONArray(getAllKeysJs(source));
 
