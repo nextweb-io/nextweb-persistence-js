@@ -26,7 +26,7 @@ import io.nextweb.promise.js.callbacks.JsStringValueCallbackWrapper;
 
 public class JsAsyncMap implements StoreImplementation<String, Object> {
 
-    private final static boolean ENABLE_LOG = true;
+    private final static boolean ENABLE_LOG = false;
 
     private final JavaScriptObject source;
     private final JsSerializer serializer;
