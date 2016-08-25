@@ -269,8 +269,6 @@ public class JsAsyncMap implements StoreImplementation<String, Object> {
 
                 final String key = keys.get(idx);
 
-                // Console.log(this + " Checking key " + key);
-
                 if (key.startsWith(keyStartsWith)) {
 
                     res.add(new StoreEntryData<String, Object>(key, getSync(key)));
