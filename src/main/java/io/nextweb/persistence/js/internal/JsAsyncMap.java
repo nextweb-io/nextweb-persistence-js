@@ -290,6 +290,26 @@ public class JsAsyncMap implements StoreImplementation<String, Object> {
     }
 
     @Override
+    public void getSize(final String keyStartsWith, final ValueCallback<Integer> callback) {
+        getAll(keyStartsWith, 0, -1, AsyncCommon.embed(callback, new Closure<List<StoreEntry<String, Object>>>() {
+
+            @Override
+            public void apply(final List<StoreEntry<String, Object>> entries) {
+
+                int size = 0;
+                for (final StoreEntry<String, Object> e : entries) {
+                    size += size + e.key().length();
+                    size += size + e.value().toString().length();
+                }
+
+                callback.onSuccess(size);
+
+            }
+
+        }));
+    }
+
+    @Override
     public void count(final String keyStartsWith, final ValueCallback<Integer> callback) {
         getAll(keyStartsWith, 0, -1, AsyncCommon.embed(callback, new Closure<List<StoreEntry<String, Object>>>() {
 
